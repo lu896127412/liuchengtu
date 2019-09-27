@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JSON diff</title>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../diff.css">
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../diff.js"></script>
+</head>
+
+<body cz-shortcut-listen="true">
+    <div id="view" class="container">
+        <section id="sources">
+            <textarea id="text1" class="form-control mid" rows="10"></textarea>
+            <textarea id="text2" class="form-control mid" rows="10"></textarea>
+        </section>
+        <div class="range text-center">
+            <button id="compare" class="btn btn-primary" type="button">对比</button>
+            <!-- <button id="swap" class="btn btn-success" type="button">交换</button> -->
+            <!-- <button id="clear" class="btn btn-danger" type="button">清空</button> -->
+            <button id="expand" class="btn btn-default" type="button">全部展开</button>
+            <button id="collapseAll" class="btn btn-default" type="button">全部收起</button>
+            <button id="collapse" class="btn btn-default" type="button">只看不同</button>
+            <!-- <button id="fade-in" class="btn btn-default" type="button">fadeIn</button> -->
+            <!-- <button id="fade-out" class="btn btn-default" type="button">fadeOut</button> -->
+        </div>
+        <section id="result" style="min-height:300px;"></section>
+    </div>
+    <script type="text/javascript">
+    var jt1 =  {
+      "guides": [],
+      "source": {
+        "edges": [{
+          "id": "1b2b7051",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id0",
+          "target": "id3",
+          "targetAnchor": 1
+        }, {
+          "id": "5c1d21fc",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "未命名",
+            "fontSize": 13
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id0",
+          "target": "id2",
+          "targetAnchor": 1
+        }, {
+          "id": "077c4fd1",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id0",
+          "target": "id1",
+          "sourceAnchor": 6,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 289.34136008177353,
+            "y": 79.97576656851996
+          }, {
+            "x": 110,
+            "y": 143.25
+          }]
+        }, {
+          "id": "a86e6538",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id1",
+          "target": "id4",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 110,
+            "y": 196.75
+          }, {
+            "x": 130,
+            "y": 351.25
+          }]
+        }, {
+          "id": "a798c7d5",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id2",
+          "target": "id5",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 350.5,
+            "y": 186
+          }, {
+            "x": 350,
+            "y": 297.75
+          }]
+        }, {
+          "id": "417a5122",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id3",
+          "target": "id6",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 670,
+            "y": 188.25
+          }, {
+            "x": 690,
+            "y": 308.25
+          }]
+        }, {
+          "id": "e55e1ced",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id5",
+          "target": "id7"
+        }, {
+          "id": "e89e172d",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "产生",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id6",
+          "target": "id1",
+          "sourceAnchor": 7,
+          "targetAnchor": 3,
+          "controlPoints": [{
+            "x": 599.25,
+            "y": 350
+          }, {
+            "x": 150.25,
+            "y": 170
+          }]
+        }, {
+          "id": "6e8f8d3c",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id5",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "targetAnchor": 6,
+          "controlPoints": [{
+            "x": 386.75,
+            "y": 330
+          }, {
+            "x": 629.1645833864769,
+            "y": 179.97576656851996
+          }]
+        }, {
+          "id": "f81c4dc5",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id7",
+          "target": "id3",
+          "sourceAnchor": 2,
+          "controlPoints": [{
+            "x": 392.88046532517444,
+            "y": 501.4384469938531
+          }, {
+            "x": 629.1645833864769,
+            "y": 179.97576656851996
+          }]
+        }, {
+          "id": "17d98763",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id2",
+          "target": "id1"
+        }, {
+          "id": "ae8ea989",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id2",
+          "target": "id3"
+        }],
+        "nodes": [{
+          "x": 350.5,
+          "y": 158.75,
+          "id": "id2",
+          "size": [92, 53.5],
+          "label": {
+            "fill": "#000000",
+            "text": "植物细胞",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 330,
+          "y": 60,
+          "id": "id0",
+          "size": [114, 55.5],
+          "label": {
+            "fill": "#000000",
+            "text": "呼吸作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 350,
+          "y": 330,
+          "id": "id5",
+          "size": [72.5, 63.5],
+          "label": {
+            "fill": "#000000",
+            "text": "细胞质",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 360,
+          "y": 520,
+          "id": "id7",
+          "size": [92, 51.5],
+          "label": {
+            "fill": "#000000",
+            "text": "线粒体",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 110,
+          "y": 170,
+          "id": "id1",
+          "size": [79.5, 52.5],
+          "label": {
+            "fill": "#000000",
+            "text": "氧气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 130,
+          "y": 380,
+          "id": "id4",
+          "size": [120, 56.5],
+          "label": {
+            "fill": "#000000",
+            "text": "空气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 670,
+          "y": 160,
+          "id": "id3",
+          "size": [114.5, 55.5],
+          "label": {
+            "fill": "#000000",
+            "text": "有机物",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 690,
+          "y": 350,
+          "id": "id6",
+          "size": [180.5, 82.5],
+          "label": {
+            "fill": "#000000",
+            "text": "有机物",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }]
+      }
+    };
+    // var jt1 = {
+    //     "format": "example",
+    //     "content": [{
+    //         "align": "center",
+    //         "depth": 0,
+    //         "list": false,
+    //         "content": [{
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "FFFFFF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "And please, feel free to send us your feedback and comments to "
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "4DC3FF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "hello world"
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "FFFFFF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": ", or just by clicking on the "
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "4DC3FF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "feedback"
+    //         }, {
+    //             "content": " button up above.",
+    //             "style": {
+    //                 "size": 20,
+    //                 "color": "FFFFFF",
+    //                 "name": "Arial",
+    //                 "bold": 2,
+    //                 "italic": 2,
+    //                 "underline": 2
+    //             }
+    //         }],
+    //         "ordered": false
+    //     }],
+    //     "version": 3
+    // };
+    var jt2 = {
+      "guides": [
+
+      ],
+      "source": {
+        "edges": [{
+            "id": "693878df",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "需要",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id0",
+            "target": "id2",
+            "controlPoints": [{
+                "x": 276.6376714518957,
+                "y": 113.5113004744527
+              },
+              {
+                "x": 263.5,
+                "y": 138
+              },
+              {
+                "x": 268.5017856687341,
+                "y": 160.33489360325984
+              }
+            ]
+          },
+          {
+            "id": "b885af5f",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "需要",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id2",
+            "target": "id3",
+            "controlPoints": [{
+                "x": 233.5,
+                "y": 206
+              },
+              {
+                "x": 243.5,
+                "y": 223
+              },
+              {
+                "x": 224.5,
+                "y": 246.5
+              }
+            ]
+          },
+          {
+            "id": "7cd4a9ec",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id2",
+            "target": "id4",
+            "controlPoints": [{
+                "x": 283,
+                "y": 179.25
+              },
+              {
+                "x": 311.5,
+                "y": 186
+              },
+              {
+                "x": 343.25,
+                "y": 190
+              }
+            ]
+          },
+          {
+            "id": "b49b0c5a",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id4",
+            "target": "id6",
+            "controlPoints": [{
+                "x": 436.75,
+                "y": 190
+              },
+              {
+                "x": 461.5,
+                "y": 183
+              },
+              {
+                "x": 484,
+                "y": 173.25
+              }
+            ]
+          },
+          {
+            "id": "46ef645f",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "需要",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id0",
+            "target": "id6",
+            "controlPoints": [{
+                "x": 423.3623285481043,
+                "y": 113.5113004744527
+              },
+              {
+                "x": 474.5,
+                "y": 128
+              },
+              {
+                "x": 501.8664863476206,
+                "y": 150.09225291614058
+              }
+            ]
+          },
+          {
+            "id": "92632386",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "来自",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id6",
+            "target": "id1",
+            "controlPoints": [{
+                "x": 545,
+                "y": 206
+              },
+              {
+                "x": 561.5,
+                "y": 217
+              },
+              {
+                "x": 631.5631854887215,
+                "y": 300.73134021266657
+              }
+            ]
+          },
+          {
+            "id": "47e0469f",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "有",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id5",
+            "target": "id7"
+          },
+          {
+            "id": "d6b9561e",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "产生",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id4",
+            "target": "id5"
+          },
+          {
+            "id": "b4dbf3c6",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id5",
+            "target": "id6"
+          },
+          {
+            "id": "0099ac79",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id7",
+            "target": "id6"
+          }
+        ],
+        "nodes": [{
+            "x": 350,
+            "y": 90,
+            "id": "id0",
+            "size": [
+              206.5,
+              65.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "呼吸作用",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 545,
+            "y": 173.25,
+            "id": "id6",
+            "size": [
+              121,
+              64.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "有机物",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 233.5,
+            "y": 179.25,
+            "id": "id2",
+            "size": [
+              98,
+              52.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "氧气",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 224.5,
+            "y": 276.25,
+            "id": "id3",
+            "size": [
+              100,
+              58.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "空气",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 390,
+            "y": 190,
+            "id": "id4",
+            "size": [
+              92.5,
+              59
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "植物细胞",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 410,
+            "y": 400,
+            "id": "id7",
+            "size": [
+              124,
+              78.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "线粒体",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 400,
+            "y": 290,
+            "id": "id5",
+            "size": [
+              92,
+              56.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "细胞质",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 680,
+            "y": 320,
+            "id": "id1",
+            "size": [
+              136,
+              53.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "光合作用",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          }
+        ]
+      }
+    };
+
+    var t1 = document.getElementById("text1");
+
+    t1.value = JSON.stringify(jt1);
+
+    var t2 = document.getElementById("text2");
+    t2.value = JSON.stringify(jt2);
+
+    var _diff = new Diff({
+        "left": "text1",
+        "right": "text2",
+        "targetId": "result"
+    });
+
+
+    $("#compare").click(function() {
+        _diff.compare();
+    });
+    $("#swap").click(function() {
+        _diff.swap();
+    });
+    $("#clear").click(function() {
+        _diff.clear();
+    });
+
+    $("#expand").click(function() {
+        _diff.expandAll();
+    });
+
+    $("#fade-in").click(function() {
+        _diff.fadeIn();
+    });
+
+    $("#fade-out").click(function() {
+        _diff.fadeOut();
+    });
+
+    $("#collapseAll").click(function() {
+        _diff.collapseAll();
+    });
+
+    $("#collapse").click(function() {
+        _diff.collapse(document.getElementById("result"));
+    });
+    </script>
+</body>
+
+</html>

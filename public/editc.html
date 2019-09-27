@@ -1,0 +1,2174 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <script src="./jquery-3.2.1.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/g6/1.2.8/g6.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./main.css">
+  <link rel="stylesheet" type="text/css" href="./diff.css">
+  <!-- <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script> -->
+  <!-- <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+  <script type="text/javascript" src="./diff.js"></script>
+
+  <style>
+  *{
+    padding:0px;
+    margin:0px;
+  }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    #mountNodea,
+    #mountNodeb {
+      width:500px;
+    }
+    .tableb{
+      width: 80%;
+      margin:50px auto;
+    }
+
+    .oa{
+      line-height: 35px;
+    }
+    /*.tablec tabled tablee tablef*/
+  </style>
+</head>
+
+<body>
+  <button onclick="ready()">开始</button>
+  <!-- <button onclick="looka()">查看1</button> -->
+  <button onclick="readyb()">开始2</button>
+  <button onclick="dba()">对比</button>
+
+  <table style="width:80%;height:300px;margin:auto" border="1">
+    <tr>
+      <td style="width:50%;">
+        <div id="mountNodea"></div>
+      </td>
+      <td>
+        <div id="mountNodeb"></div>
+      </td>
+    </tr>
+  </table>
+  <table class="table table-bordered" style="width: 80%;margin:auto;text-align: center;">
+    <tr>
+      <td>图1</td>
+      <td>图2</td>
+    </tr>
+    <tr>
+      <td>
+         <!-- 《数据库应用于原理》的相关词  -->
+        <div style="width:50px;height: 20px;background: #ed4014;margin:auto"></div>
+          不同的节点代表颜色
+      </td>
+      <td> 
+        <div style="width:50px;height: 20px;background: blue;margin:auto"></div>
+        不同的关系代表颜色</td>
+    </tr>
+  </table>
+
+
+ <!--  <table class="tableb table table-bordered" border="1">
+  <tr>
+    <td colspan="2">节点名称</td>
+    <td colspan="2">线顺序/线名称</td>
+  </tr>
+  </table> -->
+  <div style="width:80%;margin:auto;overflow: hidden;">
+    <div class="oa" style="width:50%;float: left;border:1px solid #aaa;text-align: center;">
+      不同的《数据库应用于原理》的相关词
+    </div>
+    <div class="oa" style="width:50%;float: left;border:1px solid #aaa;text-align: center;">
+      不同的关系
+    </div>
+    <div style="width:25%;float: left;" class="tablec">
+
+    </div>  
+     <div style="width:25%;float: left;" class="tabled">
+
+    </div>  
+     <div style="width:25%;float: left;"  class="tablee">
+
+    </div>  
+     <div style="width:25%;float: left;"  class="tablef">
+
+    </div>  
+   <!--  <table class="tablec table table table-bordered" style="width:25%;float: left;">
+     <tr>
+       <td>
+         123
+       </td>
+     </tr>
+       <tr>
+       <td>
+         123
+       </td>
+     </tr>
+         
+    </table>
+    <table class="tabled table table-bordered" style="width:25%;float: left;">
+   
+    </table>
+    <table class="tablee table table-bordered" style="width:25%;float: left;">
+     
+    </table>
+    <table class="tablef table table-bordered" style="width:25%;float: left;">
+     
+    </table> -->
+  </div>
+
+ <!-- <tr>
+    <td style="width:25%">
+      <table class="tablec ">
+        <tr>
+          <td>图1不同</td>
+        </tr>
+      </table>
+    </td>
+    <td style="width:25%">
+        <table class="tabled">
+        <tr>
+          <td>图2不同</td>
+        </tr>
+      </table>
+    </td>
+    <td style="width:25%">
+       <table class="tablee">
+        <tr>
+           <td>图1不同</td>
+        </tr>
+      </table>
+    </td>
+     <td style="width:25%">
+       <table class="tablef">
+        <tr>
+          <td>图2不同</td>
+        </tr>
+      </table>
+     </td>
+  </tr> -->
+
+
+
+  <div style="height: 50px;"> </div>
+  <div id="view" class="container" >
+    <section id="sources">
+      <textarea id="text1" class="form-control mid" rows="10"></textarea>
+      <textarea id="text2" class="form-control mid" rows="10"></textarea>
+    </section>
+    <div class="range text-center">
+      <button id="compare" class="btn btn-primary" type="button">对比</button>
+      <!-- <button id="swap" class="btn btn-success" type="button">交换</button> -->
+      <!-- <button id="clear" class="btn btn-danger" type="button">清空</button> -->
+      <button id="expand" class="btn btn-default" type="button">全部展开</button>
+      <button id="collapseAll" class="btn btn-default" type="button">全部收起</button>
+      <!-- <button id="collapse" class="btn btn-default" type="button">只看不同</button> -->
+      <!-- <button id="fade-in" class="btn btn-default" type="button">fadeIn</button> -->
+      <!-- <button id="fade-out" class="btn btn-default" type="button">fadeOut</button> -->
+    </div>
+    <section id="result" style="min-height:300px;border:1px dotted #eee;"></section>
+  </div>
+  <script>
+    // function test() {
+    //     for (var i = 0; i < arguments.length; i++) {
+    //         //var param = arguments[i];
+    //         eval("var param" + (i + 1).toString() + "= arguments[" + i + "]");
+
+    //     alert(param1);
+    // }
+    // // 调用
+    // test('Marydon','http://www.cnblogs.com','动态创建变量演示');
+
+    // 动态创建变量
+    // 来自
+
+
+
+
+    // alert(param1);
+    var aa = {
+      "guides": [],
+      "source": {
+        "edges": [{
+          "id": "e6b6c41a",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要1",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id0",
+          "target": "id2",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 450,
+            "y": 80.25
+          }, {
+            "x": 467,
+            "y": 149.5
+          }]
+        }, {
+          "id": "c11c383e",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id0",
+          "target": "id1",
+          "sourceAnchor": 7,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 363.75,
+            "y": 50
+          }, {
+            "x": 184.75,
+            "y": 151.5
+          }]
+        }, {
+          "id": "d48386ee",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id0",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 536.25,
+            "y": 50
+          }, {
+            "x": 730,
+            "y": 146.25
+          }]
+        }, {
+          "id": "bead8005",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id1",
+          "target": "id4",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 184.75,
+            "y": 212
+          }, {
+            "x": 170,
+            "y": 257.75
+          }]
+        }, {
+          "id": "ddac311e",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id2",
+          "target": "id5",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 467,
+            "y": 220.75
+          }, {
+            "x": 470,
+            "y": 267.75
+          }]
+        }, {
+          "id": "2a2c3807",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id3",
+          "target": "id6",
+          "targetAnchor": 1
+        }, {
+          "id": "a8c20717",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id5",
+          "target": "id7",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 470,
+            "y": 352.25
+          }, {
+            "x": 470,
+            "y": 409.25
+          }]
+        }, {
+          "id": "f35c187a",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "产生",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id6",
+          "target": "id1",
+          "sourceAnchor": 7,
+          "targetAnchor": 3,
+          "controlPoints": [{
+            "x": 599.75,
+            "y": 360
+          }, {
+            "x": 277,
+            "y": 181.75
+          }]
+        }, {
+          "id": "b1d46e32",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id5",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "controlPoints": [{
+            "x": 567.5,
+            "y": 310
+          }, {
+            "x": 661.7641956154981,
+            "y": 203.86485386504597
+          }]
+        }, {
+          "id": "0eeb3e21",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id7",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "targetAnchor": 5,
+          "controlPoints": [{
+            "x": 553.25,
+            "y": 450
+          }, {
+            "x": 730,
+            "y": 213.75
+          }]
+        }, {
+          "id": "c25e71a7",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id2",
+          "target": "id1",
+          "targetAnchor": 3
+        }, {
+          "id": "64f7668c",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id2",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "controlPoints": [{
+            "x": 563,
+            "y": 185.125
+          }, {
+            "x": 633.5,
+            "y": 180
+          }]
+        }],
+        "nodes": [{
+          "x": 184.75,
+          "y": 181.75,
+          "id": "id1",
+          "size": [183.5, 59.5],
+          "label": {
+            "fill": "#000000",
+            "text": "氧气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 467,
+          "y": 185.125,
+          "id": "id2",
+          "size": [191, 70.25],
+          "label": {
+            "fill": "#000000",
+            "text": "植物细胞",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 730,
+          "y": 180,
+          "id": "id3",
+          "size": [192, 66.5],
+          "label": {
+            "fill": "#000000",
+            "text": "有机物",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 450,
+          "y": 50,
+          "id": "id0",
+          "size": [171.5, 59.5],
+          "label": {
+            "fill": "#000000",
+            "text": "呼吸作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 470,
+          "y": 450,
+          "id": "id7",
+          "size": [165.5, 80.5],
+          "label": {
+            "fill": "#000000",
+            "text": "线粒体",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 470,
+          "y": 310,
+          "id": "id5",
+          "size": [194, 83.5],
+          "label": {
+            "fill": "#000000",
+            "text": "细胞质",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 170,
+          "y": 290,
+          "id": "id4",
+          "size": [152, 63.5],
+          "label": {
+            "fill": "#000000",
+            "text": "空气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 730,
+          "y": 360,
+          "id": "id6",
+          "size": [259.5, 86.5],
+          "label": {
+            "fill": "#000000",
+            "text": "光合作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }]
+      }
+    }
+    var bb = {
+      "guides": [],
+      "source": {
+        "edges": [{
+          "id": "e6b6c41a",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id0",
+          "target": "id2",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 450,
+            "y": 80.25
+          }, {
+            "x": 467,
+            "y": 149.5
+          }]
+        }, {
+          "id": "c11c383e",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id0",
+          "target": "id1",
+          "sourceAnchor": 7,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 363.75,
+            "y": 50
+          }, {
+            "x": 184.75,
+            "y": 151.5
+          }]
+        }, {
+          "id": "d48386ee",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id0",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 536.25,
+            "y": 50
+          }, {
+            "x": 730,
+            "y": 146.25
+          }]
+        }, {
+          "id": "bead8005",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id1",
+          "target": "id4",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 184.75,
+            "y": 212
+          }, {
+            "x": 170,
+            "y": 257.75
+          }]
+        }, {
+          "id": "ddac311e",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id2",
+          "target": "id5",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 467,
+            "y": 220.75
+          }, {
+            "x": 470,
+            "y": 267.75
+          }]
+        }, {
+          "id": "2a2c3807",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id3",
+          "target": "id6",
+          "targetAnchor": 1
+        }, {
+          "id": "a8c20717",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id5",
+          "target": "id7",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 470,
+            "y": 352.25
+          }, {
+            "x": 470,
+            "y": 409.25
+          }]
+        }, {
+          "id": "f35c187a",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "产生",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id6",
+          "target": "id1",
+          "sourceAnchor": 7,
+          "targetAnchor": 3,
+          "controlPoints": [{
+            "x": 599.75,
+            "y": 360
+          }, {
+            "x": 277,
+            "y": 181.75
+          }]
+        }, {
+          "id": "b1d46e32",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id5",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "controlPoints": [{
+            "x": 567.5,
+            "y": 310
+          }, {
+            "x": 661.7641956154981,
+            "y": 203.86485386504597
+          }]
+        }, {
+          "id": "0eeb3e21",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id7",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "targetAnchor": 5,
+          "controlPoints": [{
+            "x": 553.25,
+            "y": 450
+          }, {
+            "x": 730,
+            "y": 213.75
+          }]
+        }, {
+          "id": "c25e71a7",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id2",
+          "target": "id1",
+          "targetAnchor": 3
+        }, {
+          "id": "64f7668c",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "style": {
+            "arrow": true
+          },
+          "value": 5,
+          "source": "id2",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "controlPoints": [{
+            "x": 563,
+            "y": 185.125
+          }, {
+            "x": 633.5,
+            "y": 180
+          }]
+        }],
+        "nodes": [{
+          "x": 184.75,
+          "y": 181.75,
+          "id": "id1",
+          "size": [183.5, 59.5],
+          "label": {
+            "fill": "#000000",
+            "text": "氧气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 467,
+          "y": 185.125,
+          "id": "id2",
+          "size": [191, 70.25],
+          "label": {
+            "fill": "#000000",
+            "text": "植物细胞",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 730,
+          "y": 180,
+          "id": "id3",
+          "size": [192, 66.5],
+          "label": {
+            "fill": "#000000",
+            "text": "有机物",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 450,
+          "y": 50,
+          "id": "id0",
+          "size": [171.5, 59.5],
+          "label": {
+            "fill": "#000000",
+            "text": "呼吸作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 470,
+          "y": 450,
+          "id": "id7",
+          "size": [165.5, 80.5],
+          "label": {
+            "fill": "#000000",
+            "text": "线粒体",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 470,
+          "y": 310,
+          "id": "id5",
+          "size": [194, 83.5],
+          "label": {
+            "fill": "#000000",
+            "text": "细胞质2",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 170,
+          "y": 290,
+          "id": "id4",
+          "size": [152, 63.5],
+          "label": {
+            "fill": "#000000",
+            "text": "空气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 730,
+          "y": 360,
+          "id": "id6",
+          "size": [259.5, 86.5],
+          "label": {
+            "fill": "#000000",
+            "text": "光合作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }]
+      }
+    }
+    var Util = G6.Util;
+    const graph = new G6.Net({
+      id: 'mountNodea',
+      mode: 'edit',
+      fitView: 'autoZoom'
+    });
+    graph.read(Util.clone(aa));
+    // graph.source(aa.source.nodes, aa.source.edges);
+    graph.render();
+
+
+    const graphb = new G6.Net({
+      id: 'mountNodeb',
+      mode: 'edit',
+      fitView: 'autoZoom'
+    });
+    graphb.read(Util.clone(bb));
+    // graphb.source(bb.source.nodes, bb.source.edges);
+    graphb.render();
+
+
+
+    // for (var i = 0; i < aa.source.length; i ++) {
+    // 	aa.
+    // }
+    // 创建8个节点
+    var bk0, bk1, bk2, bk3, bk4, bk5, bk6, bk7;
+    var bj0, bj1, bj2, bj3, bj4, bj5, bj6, bj7;
+
+    function ready() {
+      // console.log(aa.source.nodes
+      bk0 = aa.source.nodes[0];
+      bk1 = aa.source.nodes[1];
+      bk2 = aa.source.nodes[2];
+      bk3 = aa.source.nodes[3];
+      bk4 = aa.source.nodes[4];
+      bk5 = aa.source.nodes[5];
+      bk6 = aa.source.nodes[6];
+      bk7 = aa.source.nodes[7];
+    }
+
+    function readyb() {
+      bj0 = bb.source.nodes[0];
+      bj1 = bb.source.nodes[1];
+      bj2 = bb.source.nodes[2];
+      bj3 = bb.source.nodes[3];
+      bj4 = bb.source.nodes[4];
+      bj5 = bb.source.nodes[5];
+      bj6 = bb.source.nodes[6];
+      bj7 = bb.source.nodes[7];
+    }
+
+
+       var aboxa_data = [];
+      var aboxb_data = [];
+
+      var boxa_data = [];
+      var boxb_data = [];
+    function dba() {
+      for (var i = 0; i < 8; i++) {
+        for (var ia = 0; ia < aa.source.edges.length; ia++) {
+          // aa.source.edges[ia].source;
+          // aa.source.edges[ia].target;
+          if (aa.source.edges[ia].source == eval("bk" + i).id) {
+            aa.source.edges[ia].soxq = eval("bk" + i);
+          }
+          if (aa.source.edges[ia].target == eval("bk" + i).id) {
+            aa.source.edges[ia].taxq = eval("bk" + i);
+          }
+        }
+      }
+      for (var i = 0; i < 8; i++) {
+        for (var ia = 0; ia < bb.source.edges.length; ia++) {
+          // bb.source.edges[ia].source;
+          // bb.source.edges[ia].target;
+          if (bb.source.edges[ia].source == eval("bj" + i).id) {
+            bb.source.edges[ia].soxq = eval("bj" + i);
+          }
+          if (bb.source.edges[ia].target == eval("bj" + i).id) {
+            bb.source.edges[ia].taxq = eval("bj" + i);
+          }
+        }
+      }
+      // 先对比点
+      for (var i = 0; i < aa.source.nodes.length; i++) {
+        // console.log(aa.source.nodes[i].label.text);
+        var numa = 0;
+        var numa_dataa;
+        var numa_datab;
+        numa_dataa = aa.source.nodes[i];
+        for (var ib = 0; ib < bb.source.nodes.length; ib++) {
+          if (aa.source.nodes[i].label.text == bb.source.nodes[ib].label.text) {
+            numa++;
+            numa_datab = bb.source.nodes[ib];
+          } else {}
+        }
+        if (numa == 0) {
+          // console.log(aa.source.nodes[i]);
+          aa.source.nodes[i].style.fill = '#ed4014';
+          aa.source.nodes[i].style.fillOpacity = '1';
+          aa.source.nodes[i].label.fill = '#ffffff';
+          aa.source.nodes[i].style.stroke = '#ed4014';
+          aboxa_data[aboxa_data.length] =  aa.source.nodes[i].label.text;
+          graph.clear();
+          graph.read(Util.clone(aa));
+          graph.render();
+        }
+      }
+      for (var i = 0; i < bb.source.nodes.length; i++) {
+        // console.log(aa.source.nodes[i].label.text);
+        var numa = 0;
+        var numa_dataa;
+        numa_dataa = bb.source.nodes[i];
+        for (var ib = 0; ib < aa.source.nodes.length; ib++) {
+          if (bb.source.nodes[i].label.text == aa.source.nodes[ib].label.text) {
+            numa++;
+          } else {}
+        }
+        if (numa == 0) {
+          // console.log(aa.source.nodes[i]);
+          bb.source.nodes[i].style.fill = '#ed4014';
+          bb.source.nodes[i].style.fillOpacity = '1';
+          bb.source.nodes[i].label.fill = '#ffffff';
+          bb.source.nodes[i].style.stroke = '#ed4014';
+          aboxb_data[aboxb_data.length] =  bb.source.nodes[i].label.text;
+          graphb.clear();
+          graphb.read(Util.clone(bb));
+          graphb.render();
+        }
+      }
+   
+
+      // 判断线
+      for (var i = 0; i < aa.source.edges.length; i++) {
+        var numa = 0;
+        var numa_data;
+        for (var ib = 0; ib < bb.source.edges.length; ib++) {
+          if (aa.source.edges[i].soxq.label.text == bb.source.edges[ib].soxq.label.text && aa.source.edges[i].taxq.label.text == bb.source.edges[ib].taxq.label.text && aa.source.edges[i].label.text == bb.source.edges[ib].label.text) {
+            numa++;
+          }
+        }
+        if (numa == 0) {
+          aa.source.edges[i].color = 'blue';
+          // aa.source.nodes[i].style.fillOpacity = '1';
+          aa.source.edges[i].label.fill = 'blue';
+          // aa.source.nodes[i].style.stroke = '#ed4014';
+          boxa_data[boxa_data.length] =  aa.source.edges[i].label.text;
+          graph.clear();
+          graph.read(Util.clone(aa));
+          graph.render();
+        }
+      }
+
+
+
+ for (var i = 0; i < bb.source.edges.length; i++) {
+        var numa = 0;
+        var numa_data;
+        for (var ib = 0; ib < aa.source.edges.length; ib++) {
+          if (bb.source.edges[i].soxq.label.text == aa.source.edges[ib].soxq.label.text && bb.source.edges[i].taxq.label.text == aa.source.edges[ib].taxq.label.text && bb.source.edges[i].label.text == aa.source.edges[ib].label.text) {
+            numa++;
+          }
+        }
+        if (numa == 0) {
+          bb.source.edges[i].color = 'blue';
+          // bb.source.nodes[i].style.fillOpacity = '1';
+          bb.source.edges[i].label.fill = 'blue';
+          // bb.source.nodes[i].style.stroke = '#ed4014';
+          boxb_data[boxb_data.length] =  bb.source.edges[i].label.text;
+          graphb.clear();
+          graphb.read(Util.clone(bb));
+          graphb.render();
+        }
+      }
+
+
+      console.log(boxa_data);
+      console.log(boxb_data);
+
+
+      console.log(aboxa_data);
+      console.log(aboxb_data);
+      $('.tablec').empty();
+     
+      if (aboxa_data.length == 0) {
+
+      } else {
+         $('.tablec').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图1不同</div>');
+          for (var i = 0; i < aboxa_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  aboxa_data[i] +'</div>';
+            // <tr><td>'+ aboxa_data[i] +'</td></tr>'
+            $('.tablec').append(mca);
+          }
+      }
+
+      $('.tabled').empty();
+      if (aboxb_data.length == 0) {
+
+      } else {
+         $('.tabled').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图2不同</div>');
+          for (var i = 0; i < aboxb_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  aboxb_data[i] +'</div>';
+            // <tr><td>'+ aboxb_data[i] +'</td> </tr>
+            $('.tabled').append(mca);
+          }
+      }
+
+
+       $('.tablee').empty();
+      if (boxa_data.length == 0) {
+
+      } else {
+         $('.tablee').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图1不同</div>');
+          for (var i = 0; i < boxa_data.length; i++) {
+            var mca = '';
+            mca = mca + '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  boxa_data[i] +'</div>'
+            // '<tr><td>'+ boxa_data[i] +'</td> </tr>'
+            $('.tablee').append(mca);
+          }
+      }
+
+      $('.tablef').empty();
+      if (boxb_data.length == 0) {
+
+      } else {
+         $('.tablef').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图2不同</div>');
+          for (var i = 0; i < boxb_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  boxb_data[i] +'</div>'
+            $('.tablef').append(mca);
+          }
+      }
+      
+      // 
+      // // <tr>
+      //     <td>图1不同</td>
+      //   </tr>
+// 
+
+// tablec
+// tabled
+
+
+// tableb
+//  <tr>
+    //   <th>不同之处</th>
+    // </tr>
+    // <tr>
+    //   <td>节点名称</td>
+    // </tr>
+    //  <tr>
+    //   <td>线顺序/线名称</td>
+    // </tr>
+
+
+
+
+      // 节点
+      // 方法
+      // 1 吧节点全部倒入到线里面，进行线对比
+    }
+
+
+
+
+
+
+
+
+    // var bl_lista = []; // 变量名称储存;
+    // var bl_listb = []; // 变量名称储存;
+    //  function ready () {
+    //   // var bl_lista = []; // 变量名称储存;
+    //   for (var i = 0; i < aa.source.nodes.length; i++) {
+    //       //var param = arguments[i];
+    //       var cc = aa.source.nodes[i].label.text;
+    //       eval("var bk" + i + "='"+cc+ "'" ) ;
+    //       // aa.source.nodes[i].label.text
+    //       // console.log(aa.source.nodes[i].label.text)
+    //       // + "=" +  aa.source.nodes[i]
+    //       bl_lista[bl_lista.length] =  ("bk" + i);
+    //       // eval_r("number_"+i.toString()+" = 120;");
+    //       // console.log((eval("param" + (i + 1))));
+    //       // console.log(eval("param" + i));
+    //       // .toString() + "= arguments[" + i + "]")
+    //   }
+    //   console.log(bl_lista)
+    // }
+    // function looka () {
+    //   console.log(bk0);
+    //   // for (var i = 0; i < bl_lista.length; i++) {
+    //   //   // console.log((eval(""+bl_lista[i] )))
+    //   //   console.log(bl_lista[i])
+    //   // }
+    //
+    // }
+    //
+    // function readyb () {
+    //   for (var i = 0; i < bb.source.nodes.length; i++) {
+    //       //var param = arguments[i];
+    //       eval("var bj" + i + " =" +  bb.source.nodes[i]) ;
+    //       bl_listb[bl_listb.length] =  ("bj" + i);
+    //       // eval_r("number_"+i.toString()+" = 120;");
+    //       // console.log((eval("param" + (i + 1))));
+    //       // console.log(eval("param" + i));
+    //       // .toString() + "= arguments[" + i + "]")
+    //   }
+    //   console.log(bl_listb)
+    // }
+    //
+    // function dba () {
+    //
+    // }
+
+
+    var jt1 = {
+      "guides": [],
+      "source": {
+        "edges": [{
+          "id": "1b2b7051",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id0",
+          "target": "id3",
+          "targetAnchor": 1
+        }, {
+          "id": "5c1d21fc",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "未命名",
+            "fontSize": 13
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id0",
+          "target": "id2",
+          "targetAnchor": 1
+        }, {
+          "id": "077c4fd1",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "需要",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id0",
+          "target": "id1",
+          "sourceAnchor": 6,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 289.34136008177353,
+            "y": 79.97576656851996
+          }, {
+            "x": 110,
+            "y": 143.25
+          }]
+        }, {
+          "id": "a86e6538",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id1",
+          "target": "id4",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 110,
+            "y": 196.75
+          }, {
+            "x": 130,
+            "y": 351.25
+          }]
+        }, {
+          "id": "a798c7d5",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id2",
+          "target": "id5",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 350.5,
+            "y": 186
+          }, {
+            "x": 350,
+            "y": 297.75
+          }]
+        }, {
+          "id": "417a5122",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "来自",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id3",
+          "target": "id6",
+          "sourceAnchor": 5,
+          "targetAnchor": 1,
+          "controlPoints": [{
+            "x": 670,
+            "y": 188.25
+          }, {
+            "x": 690,
+            "y": 308.25
+          }]
+        }, {
+          "id": "e55e1ced",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "有",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id5",
+          "target": "id7"
+        }, {
+          "id": "e89e172d",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "产生",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id6",
+          "target": "id1",
+          "sourceAnchor": 7,
+          "targetAnchor": 3,
+          "controlPoints": [{
+            "x": 599.25,
+            "y": 350
+          }, {
+            "x": 150.25,
+            "y": 170
+          }]
+        }, {
+          "id": "6e8f8d3c",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id5",
+          "target": "id3",
+          "sourceAnchor": 3,
+          "targetAnchor": 6,
+          "controlPoints": [{
+            "x": 386.75,
+            "y": 330
+          }, {
+            "x": 629.1645833864769,
+            "y": 179.97576656851996
+          }]
+        }, {
+          "id": "f81c4dc5",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id7",
+          "target": "id3",
+          "sourceAnchor": 2,
+          "controlPoints": [{
+            "x": 392.88046532517444,
+            "y": 501.4384469938531
+          }, {
+            "x": 629.1645833864769,
+            "y": 179.97576656851996
+          }]
+        }, {
+          "id": "17d98763",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id2",
+          "target": "id1"
+        }, {
+          "id": "ae8ea989",
+          "size": 2,
+          "color": "#000",
+          "label": {
+            "fill": "#000000",
+            "text": "利用",
+            "fontSize": "13"
+          },
+          "shape": "line",
+          "value": 5,
+          "source": "id2",
+          "target": "id3"
+        }],
+        "nodes": [{
+          "x": 350.5,
+          "y": 158.75,
+          "id": "id2",
+          "size": [92, 53.5],
+          "label": {
+            "fill": "#000000",
+            "text": "植物细胞",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 330,
+          "y": 60,
+          "id": "id0",
+          "size": [114, 55.5],
+          "label": {
+            "fill": "#000000",
+            "text": "呼吸作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 350,
+          "y": 330,
+          "id": "id5",
+          "size": [72.5, 63.5],
+          "label": {
+            "fill": "#000000",
+            "text": "细胞质",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 360,
+          "y": 520,
+          "id": "id7",
+          "size": [92, 51.5],
+          "label": {
+            "fill": "#000000",
+            "text": "线粒体",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 110,
+          "y": 170,
+          "id": "id1",
+          "size": [79.5, 52.5],
+          "label": {
+            "fill": "#000000",
+            "text": "氧气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 130,
+          "y": 380,
+          "id": "id4",
+          "size": [120, 56.5],
+          "label": {
+            "fill": "#000000",
+            "text": "空气",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 670,
+          "y": 160,
+          "id": "id3",
+          "size": [114.5, 55.5],
+          "label": {
+            "fill": "#000000",
+            "text": "有机物",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }, {
+          "x": 690,
+          "y": 350,
+          "id": "id6",
+          "size": [180.5, 82.5],
+          "label": {
+            "fill": "#000000",
+            "text": "光合作用",
+            "fontSize": "13"
+          },
+          "shape": "circle",
+          "style": {
+            "fill": "white",
+            "stroke": "#000000"
+          }
+        }]
+      }
+    }
+    // var jt1 = {
+    //     "format": "example",
+    //     "content": [{
+    //         "align": "center",
+    //         "depth": 0,
+    //         "list": false,
+    //         "content": [{
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "FFFFFF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "And please, feel free to send us your feedback and comments to "
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "4DC3FF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "hello world"
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "FFFFFF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": ", or just by clicking on the "
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "4DC3FF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "feedback"
+    //         }, {
+    //             "content": " button up above.",
+    //             "style": {
+    //                 "size": 20,
+    //                 "color": "FFFFFF",
+    //                 "name": "Arial",
+    //                 "bold": 2,
+    //                 "italic": 2,
+    //                 "underline": 2
+    //             }
+    //         }],
+    //         "ordered": false
+    //     }],
+    //     "version": 3
+    // };
+    var jt2 = {
+      "guides": [
+
+      ],
+      "source": {
+        "edges": [{
+            "id": "693878df",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "需要",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id0",
+            "target": "id2",
+            "controlPoints": [{
+                "x": 276.6376714518957,
+                "y": 113.5113004744527
+              },
+              {
+                "x": 263.5,
+                "y": 138
+              },
+              {
+                "x": 268.5017856687341,
+                "y": 160.33489360325984
+              }
+            ]
+          },
+          {
+            "id": "b885af5f",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "需要",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id2",
+            "target": "id3",
+            "controlPoints": [{
+                "x": 233.5,
+                "y": 206
+              },
+              {
+                "x": 243.5,
+                "y": 223
+              },
+              {
+                "x": 224.5,
+                "y": 246.5
+              }
+            ]
+          },
+          {
+            "id": "7cd4a9ec",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id2",
+            "target": "id4",
+            "controlPoints": [{
+                "x": 283,
+                "y": 179.25
+              },
+              {
+                "x": 311.5,
+                "y": 186
+              },
+              {
+                "x": 343.25,
+                "y": 190
+              }
+            ]
+          },
+          {
+            "id": "b49b0c5a",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id4",
+            "target": "id6",
+            "controlPoints": [{
+                "x": 436.75,
+                "y": 190
+              },
+              {
+                "x": 461.5,
+                "y": 183
+              },
+              {
+                "x": 484,
+                "y": 173.25
+              }
+            ]
+          },
+          {
+            "id": "46ef645f",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "需要",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id0",
+            "target": "id6",
+            "controlPoints": [{
+                "x": 423.3623285481043,
+                "y": 113.5113004744527
+              },
+              {
+                "x": 474.5,
+                "y": 128
+              },
+              {
+                "x": 501.8664863476206,
+                "y": 150.09225291614058
+              }
+            ]
+          },
+          {
+            "id": "92632386",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "来自",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id6",
+            "target": "id1",
+            "controlPoints": [{
+                "x": 545,
+                "y": 206
+              },
+              {
+                "x": 561.5,
+                "y": 217
+              },
+              {
+                "x": 631.5631854887215,
+                "y": 300.73134021266657
+              }
+            ]
+          },
+          {
+            "id": "47e0469f",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "有",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id5",
+            "target": "id7"
+          },
+          {
+            "id": "d6b9561e",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "产生",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id4",
+            "target": "id5"
+          },
+          {
+            "id": "b4dbf3c6",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id5",
+            "target": "id6"
+          },
+          {
+            "id": "0099ac79",
+            "size": 2,
+            "color": "#000",
+            "label": {
+              "fill": "#000000",
+              "text": "利用",
+              "fontSize": "13"
+            },
+            "shape": "line",
+            "value": 5,
+            "source": "id7",
+            "target": "id6"
+          }
+        ],
+        "nodes": [{
+            "x": 350,
+            "y": 90,
+            "id": "id0",
+            "size": [
+              206.5,
+              65.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "呼吸作用",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 545,
+            "y": 173.25,
+            "id": "id6",
+            "size": [
+              121,
+              64.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "有机物",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 233.5,
+            "y": 179.25,
+            "id": "id2",
+            "size": [
+              98,
+              52.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "氧气",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 224.5,
+            "y": 276.25,
+            "id": "id3",
+            "size": [
+              100,
+              58.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "空气",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 390,
+            "y": 190,
+            "id": "id4",
+            "size": [
+              92.5,
+              59
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "植物细胞",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 410,
+            "y": 400,
+            "id": "id7",
+            "size": [
+              124,
+              78.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "线粒体",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 400,
+            "y": 290,
+            "id": "id5",
+            "size": [
+              92,
+              56.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "细胞质",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          },
+          {
+            "x": 680,
+            "y": 320,
+            "id": "id1",
+            "size": [
+              136,
+              53.5
+            ],
+            "label": {
+              "fill": "#000000",
+              "text": "光合作用",
+              "fontSize": "13"
+            },
+            "shape": "circle",
+            "style": {
+              "fill": "white",
+              "stroke": "#000000"
+            }
+          }
+        ]
+      }
+    };
+
+    var t1 = document.getElementById("text1");
+
+    t1.value = JSON.stringify(jt1);
+
+    var t2 = document.getElementById("text2");
+    t2.value = JSON.stringify(jt2);
+
+    var _diff = new Diff({
+      "left": "text1",
+      "right": "text2",
+      "targetId": "result"
+    });
+
+
+    $("#compare").click(function() {
+      _diff.compare();
+    });
+    $("#swap").click(function() {
+      _diff.swap();
+    });
+    $("#clear").click(function() {
+      _diff.clear();
+    });
+
+    $("#expand").click(function() {
+      _diff.expandAll();
+    });
+
+    $("#fade-in").click(function() {
+      _diff.fadeIn();
+    });
+
+    $("#fade-out").click(function() {
+      _diff.fadeOut();
+    });
+
+    $("#collapseAll").click(function() {
+      _diff.collapseAll();
+    });
+
+    $("#collapse").click(function() {
+      _diff.collapse(document.getElementById("result"));
+    });
+  </script>
+</body>
+
+</html>

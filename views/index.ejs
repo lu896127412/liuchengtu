@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<script src="/jquery-3.2.1.min.js"></script>
+		<script src="https://gw.alipayobjects.com/os/antv/assets/g6/1.2.8/g6.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 crossorigin="anonymous">
+
+		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		 crossorigin="anonymous">
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+         crossorigin="anonymous"></script>
+         <title>登录</title>
+		<style>
+            *{
+                margin: 0px;
+                padding: 0px;
+            }
+            html,body{
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            .main{
+                width: 100%;
+                height: 100%;
+                background-image: url('/image/bg1.jpg');
+                position:relative;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .foma{
+                width: 300px;
+                height: 300px;
+				background: #fff;
+				position: absolute;
+				right: 100px;
+				top: 150px;
+				box-shadow: 5px 5px 5px #CCCCCC, -5px -5px -5px #CCCCCC;
+				padding: 20px;
+				border-radius: 10px;
+            }
+		</style>
+</head>
+<body>
+		<nav class="navbar navbar-default" style="margin:0px">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header" style="padding-left:50px;">
+                        <a class="navbar-brand" href="#">概念图</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    </div>
+                </div>
+            </nav>
+
+
+            <div class="main">
+                        <div class="foma">
+                                <div class="form-group">
+                                        <label for="exampleInputEmail1">账号</label>
+                                        <input type="email" class="form-control username" id="exampleInputEmail1" placeholder="账号">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="exampleInputPassword1">密码</label>
+                                        <input type="password" class="pwd form-control" id="exampleInputPassword1" placeholder="密码">
+                                      </div>
+									   <div class="form-group text-center">
+										    <button type="button" class="btn btn-default" onclick="sub()">登录</button>
+										</div>
+
+
+										  <div class="form-group text-right" style="padding-top: 20px;">
+																				             <a href="/zhuce.html">没有账号?点此注册</a>
+							</div>
+
+                        </div>
+            </div>
+
+
+	<script>
+
+			// 登录
+		function sub() {
+			var storage = window.localStorage;
+			$.ajax({
+				type: "post", //向后台请求的方式，有post，get两种方法
+				url: "/web/login", //url填写的是请求的路径
+				// cache : false,//缓存是否打开
+				data: { //请求的数据，
+					"username": $(".username").val(),
+					"pwd": $(".pwd").val()
+				},
+				dataType: 'json', //请求的数据类型
+				success: function(data) { //请求的返回成功的方法
+					console.log(data);
+					if (data.code == 200) {
+						alert('登录成功')
+						storage['userid'] = data.data[0].ID;
+						storage['username'] = data.data[0].username;
+						storage['name'] = data.data[0].name;
+						storage['pwd'] = data.data[0].pwd;
+						window.location.href = '/home.html'
+					} else {
+						alert('密码错误')
+					}
+				}
+			});
+		}
+
+
+
+
+
+	</script>
+
+
+
+</body>
+</html>

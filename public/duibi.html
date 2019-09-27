@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.myProgress.js"></script>
+  <link rel="stylesheet" href="css/myProgress.css">
+  <link rel="stylesheet" href="css/layui.css">
+  <script src="./jquery-3.2.1.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/g6/1.2.8/g6.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./main.css">
+  <link rel="stylesheet" type="text/css" href="./diff.css">
+  <!-- <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script> -->
+  <!-- <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+  <script type="text/javascript" src="./diff.js"></script>
+
+  <title>Document</title>
+  <style>
+  *{
+    padding:0px;
+    margin:0px;
+  }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+    }
+    .border{
+      border:1px solid #eee;
+    }
+    .tableb{
+      width: 100%;
+      height: 300px;
+    }
+  .tableb td{
+    width: 50%;
+  }
+  .boxa{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0px;
+    z-index: 888;
+    left: 0px;
+  }
+  .boxa .nr{
+    width: 600px;
+    height: 300px;
+    background:#fff;
+    position: absolute;
+    left: 50%;
+    margin-left: -300px;
+    top: 50%;
+    margin-top: -150px;
+    box-shadow: 5px 5px 5px #ccc, -5px -5px 5px  #ccc;
+    border-radius: 20px;
+    padding-top: 20px;
+  }
+
+
+  .boxb{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0px;
+    z-index: 888;
+    left: 0px;
+  }
+  .boxb .nr{
+    width: 600px;
+    height: 300px;
+    background:#fff;
+    position: absolute;
+    left: 50%;
+    margin-left: -300px;
+    top: 50%;
+    margin-top: -150px;
+    box-shadow: 5px 5px 5px #ccc, -5px -5px 5px  #ccc;
+    border-radius: 20px;
+    padding-top: 20px;
+  }
+
+     #mountNodea,
+    #mountNodeb {
+      width:500px;
+    }
+    .tableb{
+      width: 80%;
+      margin:50px auto;
+    }
+
+    .oa{
+      line-height: 35px;
+    }
+    .jsona,.jsonb{
+      height: 300px;
+      overflow: auto;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="boxa">
+      <div class="nr">
+        <h2 style="text-align:center">比对中</h2>
+             <div class="progress-out" style="margin:auto" id="div1">
+                      <div class="percent-show"><span>0</span>%</div>
+                      <div class="progress-in"></div>
+                  </div>
+      </div>
+  </div>
+
+  <div class="boxb">
+      <div class="nr">
+        <h2 style="text-align:center">比对结果</h2>
+          <h1 style="text-align:center;margin-top:30px;">
+            相似度100%
+          </h1 >
+          <div style="text-align:center;margin-top:100px">
+            <button class="layui-btn" onclick="gb()">关闭</button>
+          </div>
+      </div>
+  </div>
+
+
+
+
+  <span>请上传需要比对的数据</span>
+  <hr>
+  <table>
+    <tr>
+      <td>
+        <div class="layui-upload">
+          <button type="button" class="layui-btn" id="test-upload-normal">上传原数据</button>
+          <div class="layui-upload-list namea">
+          </div>
+        </div>
+      </td>
+      <td style="width:30px;"></td>
+      <td>
+        <div class="layui-upload">
+          <button type="button" class="layui-btn" id="test-upload-normalb">上传需要对比数据</button>
+          <div class="layui-upload-list nameb">
+          </div>
+        </div>
+      </td>
+        <td >
+          <button type="button" class="layui-btn" onclick="sc()"  style="position:relative;top:-5px;left:20px;">进行比对</button>
+        </td>
+    </tr>
+  </table>
+  <table class="tableb">
+    <tr>
+      <td class='border'>
+        <div class="jsona">
+          &nbsp;
+        </div>
+      </td>
+      <td  class='border'>
+      <div class="jsonb">
+        &nbsp;
+
+      </div>
+      </td>
+    </tr>
+  </table>
+
+  <table style="width:80%;height:300px;margin:auto" border="1">
+    <tr>
+      <td style="width:50%;">
+        <div id="mountNodea"></div>
+      </td>
+      <td>
+        <div id="mountNodeb"></div>
+      </td>
+    </tr>
+  </table>
+  <table class="table table-bordered" style="width: 80%;margin:auto;text-align: center;">
+    <tr>
+      <td>图1</td>
+      <td>图2</td>
+    </tr>
+    <tr>
+      <td>
+         <!-- 《数据库应用于原理》的相关词  -->
+        <div style="width:50px;height: 20px;background: #ed4014;margin:auto"></div>
+          不同的节点代表颜色
+      </td>
+      <td> 
+        <div style="width:50px;height: 20px;background: blue;margin:auto"></div>
+        不同的关系代表颜色</td>
+    </tr>
+  </table>
+
+
+
+  <div style="width:80%;margin:auto;overflow: hidden;">
+    <div class="oa" style="width:50%;float: left;border:1px solid #aaa;text-align: center;">
+      不同的《数据库应用于原理》的相关词
+    </div>
+    <div class="oa" style="width:50%;float: left;border:1px solid #aaa;text-align: center;">
+      不同的关系
+    </div>
+    <div style="width:25%;float: left;" class="tablec">
+
+    </div>  
+     <div style="width:25%;float: left;" class="tabled">
+
+    </div>  
+     <div style="width:25%;float: left;"  class="tablee">
+
+    </div>  
+     <div style="width:25%;float: left;"  class="tablef">
+
+    </div>  
+  </div>
+
+  <div style="height: 50px;"> </div>
+  <div id="view" class="container" >
+    <section id="sources">
+      <textarea id="text1" class="form-control mid" rows="10"></textarea>
+      <textarea id="text2" class="form-control mid" rows="10"></textarea>
+    </section>
+    <div class="range text-center">
+      <button id="compare" class="btn btn-primary" type="button">对比</button>
+      <!-- <button id="swap" class="btn btn-success" type="button">交换</button> -->
+      <!-- <button id="clear" class="btn btn-danger" type="button">清空</button> -->
+      <button id="expand" class="btn btn-default" type="button">全部展开</button>
+      <button id="collapseAll" class="btn btn-default" type="button">全部收起</button>
+      <!-- <button id="collapse" class="btn btn-default" type="button">只看不同</button> -->
+      <!-- <button id="fade-in" class="btn btn-default" type="button">fadeIn</button> -->
+      <!-- <button id="fade-out" class="btn btn-default" type="button">fadeOut</button> -->
+    </div>
+    <section id="result" style="min-height:300px;border:1px dotted #eee;"></section>
+  </div>
+
+  <script src="/layui.all.js"></script>
+  <script>
+
+    var upimg = '';
+    var upimgb = '';
+
+    var upa = '';
+    var upb = '';
+
+    var aa = '';
+    var bb = '';
+
+    var jt1 = '';
+    var jt2 = '';
+    var _diff;
+
+
+    layui.use(['upload'], function() {
+var  layer = layui.layer,
+        upload = layui.upload;
+
+      //普通图片上传
+      var uploadInst = upload.render({
+        elem: '#test-upload-normal',
+        url: '/admin/upimg',
+        data: {
+          time: function() {
+            var timestamp = (new Date()).getTime();
+            return timestamp;
+          }
+        },
+        accept: 'file',
+        field: 'imga',
+        before: function(obj) {
+          //预读本地文件示例，不支持ie8
+          //       obj.preview(function(index, file, result){
+          //       });
+        },
+        done: function(res) {
+          //如果上传失败
+          if (res.code !== 200) {
+            return layer.msg('上传失败');
+          }
+          console.log(res);
+          $('.namea').html(res.data)
+          // $('#test-upload-normal-img').attr('src', res.data); //图片链接（base64）
+          upimg = res.data;
+          layer.msg('上传成功');
+          upa = res.datab;
+          $.ajax({
+    				type: "get", //向后台请求的方式，有post，get两种方法
+    				url: res.datab, //url填写的是请求的路径
+    				// cache : false,//缓存是否打开
+    				data: {},
+    				dataType: 'json', //请求的数据类型
+    				success: function(data) { //请求的返回成功的方法
+    					console.log(data);
+              aa = data;
+              jt1 = data;
+              $('.jsona').text(JSON.stringify(data));
+    				}
+    			});
+
+          //上传成功
+        },
+        error: function() {
+          //演示失败状态，并实现重传
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+          demoText.find('.demo-reload').on('click', function() {
+            uploadInst.upload();
+          });
+        }
+      });
+
+
+      //普通图片上传
+      var uploadInstb = upload.render({
+        elem: '#test-upload-normalb',
+        url: '/admin/upimg',
+        data: {
+          time: function() {
+            var timestamp = (new Date()).getTime();
+            return timestamp;
+          }
+        },
+        accept: 'file',
+        field: 'imga',
+        before: function(obj) {
+          //预读本地文件示例，不支持ie8
+          //       obj.preview(function(index, file, result){
+          //       });
+        },
+        done: function(res) {
+          //如果上传失败
+          if (res.code !== 200) {
+            return layer.msg('上传失败');
+          }
+          console.log(res);
+          $('.nameb').html(res.data)
+          // $('#test-upload-normal-img').attr('src', res.data); //图片链接（base64）
+          upimgb = res.data;
+          layer.msg('上传成功');
+          upb = res.datab;
+          $.ajax({
+            type: "get", //向后台请求的方式，有post，get两种方法
+            url: res.datab, //url填写的是请求的路径
+            // cache : false,//缓存是否打开
+            data: {},
+            dataType: 'json', //请求的数据类型
+            success: function(data) { //请求的返回成功的方法
+              console.log(data);
+              bb = data;
+              jt2 = data;
+              $('.jsonb').text(JSON.stringify(data));
+            }
+          });
+          //上传成功
+        },
+        error: function() {
+          //演示失败状态，并实现重传
+          var demoText = $('#test-upload-demoText');
+          demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+          demoText.find('.demo-reload').on('click', function() {
+            uploadInst.upload();
+          });
+        }
+      });
+
+    
+
+
+    });
+    var Util;
+       var aboxa_data = [];
+      var aboxb_data = [];
+
+      var boxa_data = [];
+      var boxb_data = [];
+    function sc() {
+      Util = G6.Util;
+        const graph = new G6.Net({
+          id: 'mountNodea',
+          mode: 'edit',
+          fitView: 'autoZoom'
+        });
+        graph.read(Util.clone(aa));
+        // graph.source(aa.source.nodes, aa.source.edges);
+        graph.render();
+
+
+        const graphb = new G6.Net({
+          id: 'mountNodeb',
+          mode: 'edit',
+          fitView: 'autoZoom'
+        });
+
+      graphb.read(Util.clone(bb));
+        // graph.source(aa.source.nodes, aa.source.edges);
+      graphb.render();
+
+
+
+      for (var ia = 0; ia < aa.source.edges.length; ia++) {
+
+          for (var ib = 0; ib < aa.source.nodes.length; ib++) {
+              if (aa.source.edges[ia].source == aa.source.nodes[ib].id) {
+                 aa.source.edges[ia].soxq = aa.source.nodes[ib];
+              }
+              if (aa.source.edges[ia].target == aa.source.nodes[ib].id) {
+                  aa.source.edges[ia].taxq = aa.source.nodes[ib];
+                }
+          }
+        }
+
+        for (var ia = 0; ia < bb.source.edges.length; ia++) {
+          for (var ib = 0; ib < bb.source.nodes.length; ib++) {
+           if (bb.source.edges[ia].source == bb.source.nodes[ib].id) {
+                 bb.source.edges[ia].soxq = bb.source.nodes[ib];
+              }
+              if (bb.source.edges[ia].target == bb.source.nodes[ib].id) {
+                  bb.source.edges[ia].taxq = bb.source.nodes[ib];
+                }
+            }
+          }
+            for (var i = 0; i < aa.source.nodes.length; i++) {
+        // console.log(aa.source.nodes[i].label.text);
+        var numa = 0;
+        var numa_dataa;
+        var numa_datab;
+        numa_dataa = aa.source.nodes[i];
+        for (var ib = 0; ib < bb.source.nodes.length; ib++) {
+          if (aa.source.nodes[i].label.text == bb.source.nodes[ib].label.text) {
+            numa++;
+            numa_datab = bb.source.nodes[ib];
+          } else {}
+        }
+        if (numa == 0) {
+          // console.log(aa.source.nodes[i]);
+          aa.source.nodes[i].style.fill = '#ed4014';
+          aa.source.nodes[i].style.fillOpacity = '1';
+          aa.source.nodes[i].label.fill = '#ffffff';
+          aa.source.nodes[i].style.stroke = '#ed4014';
+          aboxa_data[aboxa_data.length] =  aa.source.nodes[i].label.text;
+          graph.clear();
+          graph.read(Util.clone(aa));
+          graph.render();
+        }
+      }
+
+       for (var i = 0; i < bb.source.nodes.length; i++) {
+        // console.log(aa.source.nodes[i].label.text);
+        var numa = 0;
+        var numa_dataa;
+        numa_dataa = bb.source.nodes[i];
+        for (var ib = 0; ib < aa.source.nodes.length; ib++) {
+          if (bb.source.nodes[i].label.text == aa.source.nodes[ib].label.text) {
+            numa++;
+          } else {}
+        }
+        if (numa == 0) {
+          // console.log(aa.source.nodes[i]);
+          bb.source.nodes[i].style.fill = '#ed4014';
+          bb.source.nodes[i].style.fillOpacity = '1';
+          bb.source.nodes[i].label.fill = '#ffffff';
+          bb.source.nodes[i].style.stroke = '#ed4014';
+          aboxb_data[aboxb_data.length] =  bb.source.nodes[i].label.text;
+          graphb.clear();
+          graphb.read(Util.clone(bb));
+          graphb.render();
+        }
+      }
+
+
+       for (var i = 0; i < aa.source.edges.length; i++) {
+        var numa = 0;
+        var numa_data;
+        for (var ib = 0; ib < bb.source.edges.length; ib++) {
+          if (aa.source.edges[i].soxq.label.text == bb.source.edges[ib].soxq.label.text && aa.source.edges[i].taxq.label.text == bb.source.edges[ib].taxq.label.text && aa.source.edges[i].label.text == bb.source.edges[ib].label.text) {
+            numa++;
+          }
+        }
+        if (numa == 0) {
+          aa.source.edges[i].color = 'blue';
+          // aa.source.nodes[i].style.fillOpacity = '1';
+          aa.source.edges[i].label.fill = 'blue';
+          // aa.source.nodes[i].style.stroke = '#ed4014';
+          boxa_data[boxa_data.length] =  aa.source.edges[i].label.text;
+          graph.clear();
+          graph.read(Util.clone(aa));
+          graph.render();
+        }
+      }
+ for (var i = 0; i < bb.source.edges.length; i++) {
+        var numa = 0;
+        var numa_data;
+        for (var ib = 0; ib < aa.source.edges.length; ib++) {
+          if (bb.source.edges[i].soxq.label.text == aa.source.edges[ib].soxq.label.text && bb.source.edges[i].taxq.label.text == aa.source.edges[ib].taxq.label.text && bb.source.edges[i].label.text == aa.source.edges[ib].label.text) {
+            numa++;
+          }
+        }
+        if (numa == 0) {
+          bb.source.edges[i].color = 'blue';
+          // bb.source.nodes[i].style.fillOpacity = '1';
+          bb.source.edges[i].label.fill = 'blue';
+          // bb.source.nodes[i].style.stroke = '#ed4014';
+          boxb_data[boxb_data.length] =  bb.source.edges[i].label.text;
+          graphb.clear();
+          graphb.read(Util.clone(bb));
+          graphb.render();
+        }
+      }
+
+        $('.tablec').empty();
+     
+      if (aboxa_data.length == 0) {
+
+      } else {
+         $('.tablec').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图1不同</div>');
+          for (var i = 0; i < aboxa_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  aboxa_data[i] +'</div>';
+            // <tr><td>'+ aboxa_data[i] +'</td></tr>'
+            $('.tablec').append(mca);
+          }
+      }
+
+
+$('.tabled').empty();
+      if (aboxb_data.length == 0) {
+
+      } else {
+         $('.tabled').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图2不同</div>');
+          for (var i = 0; i < aboxb_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  aboxb_data[i] +'</div>';
+            // <tr><td>'+ aboxb_data[i] +'</td> </tr>
+            $('.tabled').append(mca);
+          }
+      }
+
+
+       $('.tablee').empty();
+      if (boxa_data.length == 0) {
+
+      } else {
+         $('.tablee').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图1不同</div>');
+          for (var i = 0; i < boxa_data.length; i++) {
+            var mca = '';
+            mca = mca + '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  boxa_data[i] +'</div>'
+            // '<tr><td>'+ boxa_data[i] +'</td> </tr>'
+            $('.tablee').append(mca);
+          }
+      }
+
+
+
+      $('.tablef').empty();
+      if (boxb_data.length == 0) {
+
+      } else {
+         $('.tablef').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图2不同</div>');
+          for (var i = 0; i < boxb_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  boxb_data[i] +'</div>'
+            $('.tablef').append(mca);
+          }
+      }
+
+      var t1 = document.getElementById("text1");
+
+    t1.value = JSON.stringify(jt1);
+
+    var t2 = document.getElementById("text2");
+    t2.value = JSON.stringify(jt2);
+
+    _diff = new Diff({
+      "left": "text1",
+      "right": "text2",
+      "targetId": "result"
+    });
+
+    }
+
+$("#compare").click(function() {
+      _diff.compare();
+    });
+    $("#swap").click(function() {
+      _diff.swap();
+    });
+    $("#clear").click(function() {
+      _diff.clear();
+    });
+
+    $("#expand").click(function() {
+      _diff.expandAll();
+    });
+
+    $("#fade-in").click(function() {
+      _diff.fadeIn();
+    });
+
+    $("#fade-out").click(function() {
+      _diff.fadeOut();
+    });
+
+    $("#collapseAll").click(function() {
+      _diff.collapseAll();
+    });
+
+    $("#collapse").click(function() {
+      _diff.collapse(document.getElementById("result"));
+    });
+
+    
+   // function db () {
+   //  var that= this;
+   //      $('.boxa').css('display', 'block');
+   //      $("#div1").myProgress({
+   //        speed: 10000,
+   //        percent: 100,
+   //        width: "100px",
+   //        height: "10px"
+   //      });
+   //      setTimeout(function () {
+   //        that.ga();
+   //      },10000)
+   //    }
+   //    function ga () {
+   //    $('.boxa').css('display','none');
+   //    $('.boxb').css('display','block');
+   //  }
+   //   function gb () {
+   //    $('.boxa').css('display','none');
+   //    $('.boxb').css('display','none');
+   //  }
+
+  </script>
+
+</body>
+
+</html>

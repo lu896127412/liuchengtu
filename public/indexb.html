@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+		<script src="/jquery-3.2.1.min.js"></script>
+		<script src="https://gw.alipayobjects.com/os/antv/assets/g6/1.2.8/g6.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 crossorigin="anonymous">
+
+		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		 crossorigin="anonymous">
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		 crossorigin="anonymous"></script>
+		<style>
+			html,body{
+			 	width: 100%;
+			 	overflow-x: hidden;
+			 	height: 100%;
+			 }
+			 #mountNode {
+			 	border: 1px solid #eee;
+			 	height: 500px;
+				width: 100%;
+			 }
+			 .modela{
+				 background: white;
+				 position: fixed;
+				 left: 50%;
+				 top:100px;
+				 width: 500px;
+				 height: 500px;
+				 margin-left: -250px;
+				 border-radius: 10px;
+				 box-shadow: 5px 5px 5px #CCCCCC, -5px -5px 5px #CCCCCC;
+				 display: none;
+			 }
+			 
+			 
+			  .modelb{
+			 				 background: white;
+			 				 position: fixed;
+			 				 left: 50%;
+			 				 top:100px;
+			 				 width: 500px;
+			 				 height: 500px;
+			 				 margin-left: -250px;
+			 				 border-radius: 10px;
+			 				 box-shadow: 5px 5px 5px #CCCCCC, -5px -5px 5px #CCCCCC;
+			 				 display: none;
+			 }
+		 </style>
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					 aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Brand</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+						<li><a href="#">Link</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown
+								<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">One more separated link</a></li>
+							</ul>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">Link</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown
+								<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+
+
+		<div class="row">
+			<div class="col-md-3" style="padding-left: 50px;padding-right: 50px;">
+				<!-- 创建图容器 -->
+				<!-- <button onclick="add()">新增长方形</button> -->
+
+				<div>
+
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">图形</a></li>
+						<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">图画</a></li>
+						<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">线条</a></li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="home">
+							<div class="list-group">
+								<a href="#" class="list-group-item" draggable='true' ondragend="dragEnda(this,event)">
+									长方形
+								</a>
+								<a href="#" class="list-group-item" draggable='true' ondragend="dragEndb(this,event)">
+									菱形
+								</a>
+								<a href="#" class="list-group-item" draggable='true' ondragend="dragEndc(this,event)">
+									圆形
+								</a>
+								<!-- 	<a href="#" class="list-group-item" draggable='true' ondragend="dragEndd(this,event)">
+									图片
+								</a> -->
+								<a href="#" class="list-group-item" draggable='true' ondragend="dragEnde(this,event)">
+									文本
+								</a>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="profile">
+								<div class="list-group" style="height: 500px;overflow-y: auto;">
+										<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a1.png')">
+											
+											<img src="/image/a1.png" style="width: 50px;">
+										</a>
+										<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a2.png')">
+											
+											<img src="/image/a2.png" style="width: 50px;">
+										</a>
+										<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a3.png')">
+											
+											<img src="/image/a3.png" style="width: 50px;">
+										</a>
+											<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a4.png')">
+											
+											<img src="/image/a4.png" style="width: 50px;">
+										</a>
+											<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a5.png')">
+											
+											<img src="/image/a5.png" style="width: 50px;">
+										</a>
+											<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a6.png')">
+											
+											<img src="/image/a6.png" style="width: 50px;">
+										</a>
+										<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a7.png')">
+											
+											<img src="/image/a7.png" style="width: 50px;">
+										</a>
+										<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a8.png')">
+											
+											<img src="/image/a8.png" style="width: 50px;">
+										</a>
+										<a href="#" class="list-group-item text-center"  draggable='true' ondragend="dragEndd(this,event,'/image/a9.png')">
+											
+											<img src="/image/a9.png" style="width: 50px;">
+										</a>
+											
+									</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="messages">
+							<div class="list-group">
+								<a href="#" class="list-group-item" onclick="adda(this,event)">
+									添加折线
+
+								</a>
+								<a href="#" class="list-group-item" onclick="addb(this,event)">
+									添加直线
+
+								</a>
+								<a href="#" class="list-group-item" onclick="addc(this,event)">
+									添加曲线
+
+								</a>
+								<a href="#" class="list-group-item" onclick="addd(this,event)">
+									添加垂直线
+								</a>
+								<a href="#" class="list-group-item" onclick="quxiaoa(this,event)" style="background: red;color:white">
+									取消添加
+								</a>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+
+
+
+			</div>
+			<div class="col-md-8">
+				<div id="mountNode"></div>
+			</div>
+		</div>
+
+
+		<!-- 图形 -->
+		<div class="modela">
+			<div style="margin:20px">
+				名称
+				<input type="text" class="form-control model_input" placeholder="">
+			</div>
+			<div style="margin:20px">
+				字体颜色
+				<input type="text" class="form-control model_color" placeholder="">
+			</div>
+			<div style="margin:20px">
+				字体大小
+				<input type="text" class="form-control model_font" placeholder="">
+			</div>
+			<div style="margin:20px">
+				背景颜色
+				<input type="text" class="form-control model_bg" placeholder="">
+			</div>
+			<div style="margin:20px">
+				背景边框颜色
+				<input type="text" class="form-control model_bgborder" placeholder="">
+			</div>
+
+			<div style="text-align: center;">
+				<button type="button" class="btn btn-primary" onclick="showb()">
+					确 定
+				</button>
+				<button type="button" class="btn btn-danger" onclick="hiddenb()">
+					取 消
+				</button>
+			</div>
+
+		</div>
+
+		<!-- 线条 -->
+		<div class="modelb">
+			<div style="margin:20px">
+				名称
+				<input type="text" class="form-control modelb_input" placeholder="">
+			</div>
+			<div style="margin:20px">
+				字体颜色
+				<input type="text" class="form-control modelb_color" placeholder="">
+			</div>
+			<div style="margin:20px">
+				字体大小
+				<input type="text" class="form-control modelb_font" placeholder="">
+			</div>
+			<div style="margin:20px">
+				背景颜色
+				<input type="text" class="form-control modelb_bg" placeholder="">
+			</div>
+			<div style="margin:20px">
+				线条大小
+				<input type="text" class="form-control modelb_size" placeholder="">
+			</div>
+
+			<div style="text-align: center;">
+				<button type="button" class="btn btn-primary" onclick="showc()">
+					确 定
+				</button>
+				<button type="button" class="btn btn-danger" onclick="hiddenc()">
+					取 消
+				</button>
+			</div>
+
+		</div>
+
+
+
+
+
+
+
+		<script>
+			var num = 0; // 数据数
+			var huaxian = false; // 划线
+			var xian_type; // 线条类型 polyLineFlow
+			var maodian = false; // 锚点
+			var touchx;
+			var touchy;
+			var jiedian;
+			var jiedianb;
+			const data = {
+				"nodes": [],
+				"edges": []
+			};
+			const graph = new G6.Net({
+				id: 'mountNode',
+				mode: 'edit'
+				// width: '100%',
+				// height: 500
+			});
+			graph.source(data.nodes, data.edges);
+			graph.render();
+			graph.on('click', (ev) => {
+				console.log(ev);
+				// 判断是否是在划线模式
+				if (huaxian == true) {
+					graph.beginAdd('edge', {
+						shape: xian_type,
+						value: 5,
+						color: '#000',
+						size: 2,
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+				}
+
+
+				//   id,            // 唯一标识
+				//   size,          // 尺寸
+				//   style,         // 样式
+				//   color,         // 颜色
+				//   shape,         // 形状
+				//   label,         // 标注
+				//   controlPoints, // 控制点
+				//   sourceAnchor,  // 连接源节点锚点索引
+				//   targetAnchor   // 连接目标节点锚点索引
+
+			}); // 鼠标左键点击事件
+			graph.on('mousedown', (ev) => {
+				if (huaxian == true) {
+					// 					graph.beginAdd('edge', {
+					// 					  shape: 'line'
+					// 					});
+					graph.changeMode('add'); // 切换到添加模式
+					graph.beginAdd('edge', {
+						shape: xian_type,
+						label: '未命名',
+						value: 5,
+						color: '#000',
+						size: 2,
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+				}
+			}); // 鼠标按下事件
+			graph.on('mouseup', (ev) => {
+				if (huaxian == true) {
+					// 					graph.beginAdd('edge', {
+					// 					  shape: 'line'
+					// 					});
+					graph.changeMode('add'); // 切换到添加模式
+					graph.beginAdd('edge', {
+						shape: xian_type,
+						label: '未命名',
+						value: 5,
+						color: '#000',
+						size: 2,
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+				}
+			}); // 鼠标抬起事件
+			function adda(t, e) {
+				huaxian = true;
+				xian_type = 'polyLineFlow';
+				graph.changeMode('add'); // 切换到添加模式
+				graph.beginAdd('edge', {
+					shape: xian_type,
+					label: '未命名',
+					value: 5,
+					color: '#000',
+					size: 2,
+					label: { // 文本标签 || 文本图形配置
+						text: '未命名',
+						fill: '#000000',
+						fontSize: 13
+					}
+				});
+				// reRender(); // 重新渲染
+			}
+
+			function addb(t, e) {
+				huaxian = true;
+				xian_type = 'line';
+				graph.changeMode('add'); // 切换到添加模式
+				graph.beginAdd('edge', {
+					shape: xian_type,
+					label: '未命名',
+					value: 5,
+					color: '#000',
+					size: 2,
+					label: { // 文本标签 || 文本图形配置
+						text: '未命名',
+						fill: '#000000',
+						fontSize: 13
+					}
+				});
+			}
+
+			function addc(t, e) {
+				huaxian = true;
+				xian_type = 'smooth';
+				graph.changeMode('add'); // 切换到添加模式
+				graph.beginAdd('edge', {
+					shape: xian_type,
+					label: '未命名',
+					value: 5,
+					color: '#000',
+					size: 2,
+					label: { // 文本标签 || 文本图形配置
+						text: '未命名',
+						fill: '#000000',
+						fontSize: 13
+					}
+				});
+
+			}
+			function addd(t, e) {
+				huaxian = true;
+				xian_type = 'HVH';
+				graph.changeMode('add'); // 切换到添加模式
+				graph.beginAdd('edge', {
+					shape: xian_type,
+					label: '未命名',
+					value: 5,
+					color: '#000',
+					size: 2,
+					label: { // 文本标签 || 文本图形配置
+						text: '未命名',
+						fill: '#000000',
+						fontSize: 13
+					}
+				});
+
+			}
+
+			function quxiaoa(t, e) {
+				graph.changeMode('default'); // 切换到添加模式
+				// graph.beginAdd('shortcut');
+				huaxian = false;
+				graph.render();
+			}
+
+			function dragEnda() {
+				setTimeout(function() {
+					graph.add('node', {
+						shape: 'rect',
+						id: 'id' + num++,
+						x: touchx,
+						y: touchy,
+						size: 50,
+						style: { // 关键形样式（优先级高于color）
+							fill: 'white',
+							stroke: '#000000',
+						},
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+					graph.refresh();
+				}, 100);
+			}
+
+			function dragEndb() {
+				setTimeout(function() {
+					graph.add('node', {
+						shape: 'rhombus',
+						id: 'id' + num++,
+						x: touchx,
+						y: touchy,
+						size: 50,
+						style: { // 关键形样式（优先级高于color）
+							fill: 'white',
+							stroke: '#000000',
+						},
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+					graph.refresh();
+				}, 100)
+			}
+
+			function dragEndc() {
+				setTimeout(function() {
+					graph.add('node', {
+						shape: 'circle',
+						id: 'id' + num++,
+						x: touchx,
+						y: touchy,
+						size: 50,
+						style: { // 关键形样式（优先级高于color）
+							fill: 'white',
+							stroke: '#000000',
+						},
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+					graph.refresh();
+				}, 100)
+			}
+
+			function dragEndd(t, event,imga) {
+				console.log(imga)
+				setTimeout(function() {
+					graph.add('node', {
+						shape: 'http://localhost:3000'+ imga,
+						// https://www.baidu.com/img/bd_logo1.png?where=super
+						id: 'id' + num++,
+						x: touchx,
+						y: touchy,
+						size: 50,
+						style: { // 关键形样式（优先级高于color）
+							fill: 'white',
+							stroke: '#000000',
+						},
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+					graph.refresh();
+				}, 100)
+			}
+
+			function dragEnde() {
+				setTimeout(function() {
+					graph.add('node', {
+						shape: 'text',
+						id: 'id' + num++,
+						x: touchx,
+						y: touchy,
+						size: 20,
+						style: { // 关键形样式（优先级高于color）
+							fill: 'white',
+							stroke: '#000000',
+						},
+						label: { // 文本标签 || 文本图形配置
+							text: '未命名',
+							fill: '#000000',
+							fontSize: 13
+						}
+					});
+					graph.refresh();
+				}, 100)
+			}
+
+			graph.on('mousemove', (ev) => {
+				// console.log(ev)
+				touchx = ev.x;
+				touchy = ev.y;
+			}); // 鼠标移动事件
+
+			graph.on('dblclick', (ev) => {
+				var item = ev.item;
+				var shape = ev.shape;
+				if (G6.Util.isNode(ev.item) && item.get('type') === 'node') {
+					console.log('3')
+					$('.modela').css('display', 'block');
+					if (hasClass(shape, 'label') && item && item.get('type') === 'node') {
+
+						var data_lista = ev.item.get('model');
+						console.log(data_lista)
+						jiedian = ev.item;
+						$('.model_input').val(data_lista.label.text);
+						$('.model_color').val(data_lista.label.fill);
+						$('.model_font').val(data_lista.label.fontSize);
+						$('.model_bg').val(data_lista.style.fill);
+						$('.model_bgborder').val(data_lista.style.stroke);
+					}
+					// this.showb();
+					// jiedian
+				};
+				if (item.get('type') === 'edge') {
+					var data_lista = ev.item.get('model');
+					console.log(data_lista);
+					jiedianb = ev.item;
+					$('.modelb').css('display', 'block');
+					$('.modelb_input').val(data_lista.label.text);
+					$('.modelb_font').val(data_lista.label.fontSize);
+					$('.modelb_color').val(data_lista.label.fill);
+					$('.modelb_size').val(data_lista.size);
+					$('.modelb_bg').val(data_lista.color);
+				}
+			}); // 鼠标左键双击事件
+
+
+			function hasClass(shape, className) {
+				if (shape) {
+					var clasees = shape.get('class');
+					if (clasees && clasees.indexOf(className) !== -1) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			function showb() {
+				// $('.model_input').val(data_lista.label.text);
+				// 				$('.model_color').val(data_lista.label.fill);
+				// 				$('.model_font').val(data_lista.size);
+				// 				$('.model_bg').val(data_lista.style.fill);
+				// 				$('.model_bgborder').val(data_lista.style.stroke);
+				graph.update(jiedian, {
+					label: {
+						text: $('.model_input').val(),
+						fill: $('.model_color').val(),
+						fontSize: $('.model_font').val(),
+					},
+					style: {
+						fill: $('.model_bg').val(),
+						stroke: $('.model_bgborder').val()
+					}
+					// fill: '',
+					// color: ‘#108EE9’,
+				});
+				// graph.render();
+				graph.refresh();
+				$('.modela').css('display', 'none');
+			}
+
+
+			function showc() {
+				graph.update(jiedianb, {
+					label: {
+						text: $('.modelb_input').val(),
+						fill: $('.modelb_color').val(),
+						fontSize: $('.modelb_font').val(),
+					},
+					size: Number($('.modelb_size').val()),
+					color: $('.modelb_bg').val()
+				});
+				// graph.render();
+				// graph.refresh();
+				$('.modelb').css('display', 'none');
+			}
+
+
+			function hiddenb() {
+				$('.modela').css('display', 'none');
+			}
+
+			function hiddenc() {
+				$('.modelb').css('display', 'none');
+			}
+		</script>
+	</body>
+</html>

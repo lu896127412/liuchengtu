@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <script src="./jquery-3.2.1.min.js"></script>
+  <script src="https://gw.alipayobjects.com/os/antv/assets/g6/1.2.8/g6.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./main.css">
+  <link rel="stylesheet" type="text/css" href="./diff.css">
+  <!-- <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script> -->
+  <!-- <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+  <script type="text/javascript" src="./diff.js"></script>
+
+  <style>
+  *{
+    padding:0px;
+    margin:0px;
+  }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    #mountNodea,
+    #mountNodeb {
+      width:500px;
+    }
+    .tableb{
+      width: 80%;
+      margin:50px auto;
+    }
+
+    .oa{
+      line-height: 35px;
+    }
+    /*.tablec tabled tablee tablef*/
+  </style>
+</head>
+
+<body>
+  <button onclick="ready()">开始</button>
+  <!-- <button onclick="looka()">查看1</button> -->
+  <button onclick="readyb()">开始2</button>
+  <button onclick="dba()">对比</button>
+
+  <table style="width:80%;height:300px;margin:auto" border="1">
+    <tr>
+      <td style="width:50%;">
+        <div id="mountNodea"></div>
+      </td>
+      <td>
+        <div id="mountNodeb"></div>
+      </td>
+    </tr>
+  </table>
+  <table class="table table-bordered" style="width: 80%;margin:auto;text-align: center;">
+    <tr>
+      <td>图1</td>
+      <td>图2</td>
+    </tr>
+    <tr>
+      <td>
+         <!-- 《数据库应用于原理》的相关词  -->
+        <div style="width:50px;height: 20px;background: #ed4014;margin:auto"></div>
+          不同的节点代表颜色
+      </td>
+      <td> 
+        <div style="width:50px;height: 20px;background: blue;margin:auto"></div>
+        不同的关系代表颜色</td>
+    </tr>
+  </table>
+
+
+ <!--  <table class="tableb table table-bordered" border="1">
+  <tr>
+    <td colspan="2">节点名称</td>
+    <td colspan="2">线顺序/线名称</td>
+  </tr>
+  </table> -->
+  <div style="width:80%;margin:auto;overflow: hidden;">
+    <div class="oa" style="width:50%;float: left;border:1px solid #aaa;text-align: center;">
+      不同的《数据库应用于原理》的相关词
+    </div>
+    <div class="oa" style="width:50%;float: left;border:1px solid #aaa;text-align: center;">
+      不同的关系
+    </div>
+    <div style="width:25%;float: left;" class="tablec">
+
+    </div>  
+     <div style="width:25%;float: left;" class="tabled">
+
+    </div>  
+     <div style="width:25%;float: left;"  class="tablee">
+
+    </div>  
+     <div style="width:25%;float: left;"  class="tablef">
+
+    </div>  
+   <!--  <table class="tablec table table table-bordered" style="width:25%;float: left;">
+     <tr>
+       <td>
+         123
+       </td>
+     </tr>
+       <tr>
+       <td>
+         123
+       </td>
+     </tr>
+         
+    </table>
+    <table class="tabled table table-bordered" style="width:25%;float: left;">
+   
+    </table>
+    <table class="tablee table table-bordered" style="width:25%;float: left;">
+     
+    </table>
+    <table class="tablef table table-bordered" style="width:25%;float: left;">
+     
+    </table> -->
+  </div>
+
+ <!-- <tr>
+    <td style="width:25%">
+      <table class="tablec ">
+        <tr>
+          <td>图1不同</td>
+        </tr>
+      </table>
+    </td>
+    <td style="width:25%">
+        <table class="tabled">
+        <tr>
+          <td>图2不同</td>
+        </tr>
+      </table>
+    </td>
+    <td style="width:25%">
+       <table class="tablee">
+        <tr>
+           <td>图1不同</td>
+        </tr>
+      </table>
+    </td>
+     <td style="width:25%">
+       <table class="tablef">
+        <tr>
+          <td>图2不同</td>
+        </tr>
+      </table>
+     </td>
+  </tr> -->
+
+
+
+  <div style="height: 50px;"> </div>
+  <div id="view" class="container" >
+    <section id="sources">
+      <textarea id="text1" class="form-control mid" rows="10"></textarea>
+      <textarea id="text2" class="form-control mid" rows="10"></textarea>
+    </section>
+    <div class="range text-center">
+      <button id="compare" class="btn btn-primary" type="button">对比</button>
+      <!-- <button id="swap" class="btn btn-success" type="button">交换</button> -->
+      <!-- <button id="clear" class="btn btn-danger" type="button">清空</button> -->
+      <button id="expand" class="btn btn-default" type="button">全部展开</button>
+      <button id="collapseAll" class="btn btn-default" type="button">全部收起</button>
+      <!-- <button id="collapse" class="btn btn-default" type="button">只看不同</button> -->
+      <!-- <button id="fade-in" class="btn btn-default" type="button">fadeIn</button> -->
+      <!-- <button id="fade-out" class="btn btn-default" type="button">fadeOut</button> -->
+    </div>
+    <section id="result" style="min-height:300px;border:1px dotted #eee;"></section>
+  </div>
+  <script>
+    // function test() {
+    //     for (var i = 0; i < arguments.length; i++) {
+    //         //var param = arguments[i];
+    //         eval("var param" + (i + 1).toString() + "= arguments[" + i + "]");
+
+    //     alert(param1);
+    // }
+    // // 调用
+    // test('Marydon','http://www.cnblogs.com','动态创建变量演示');
+
+    // 动态创建变量
+    // 来自
+
+
+
+
+    // alert(param1);
+    var aa = {"guides": [], "source": {"edges": [{"id": "9d09ebba", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "操作数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id3", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 724.5, "y": 100}, {"x": 415.5, "y": 130}]}, {"id": "b17508da", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "利用程序开启", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id4", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 714.5, "y": 40}, {"x": 415.5, "y": 130}]}, {"id": "85eca4e7", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "使用系统", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id2", "target": "id1", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 621.9687770797431, "y": -61.96877707974304}, {"x": 538.0312229202569, "y": 1.96877707974304}]}, {"id": "2145664b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "嵌入数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id1", "target": "id0", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 501.96877707974306, "y": 38.03122292025696}, {"x": 408.03122292025694, "y": 111.96877707974303}]}, {"id": "538294de", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理和控制数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id5", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 744.5, "y": 160}, {"x": 415.5, "y": 130}]}, {"id": "16dfc9d1", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id7", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 671.9687770797431, "y": 271.96877707974306}]}, {"id": "28fa62aa", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id7", "target": "id8", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 708.0312229202569, "y": 308.03122292025694}, {"x": 831.9687770797431, "y": 581.9687770797431}]}, {"id": "5b78ae74", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id9", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 561.9687770797431, "y": 321.96877707974306}]}, {"id": "96b50b4f", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id11", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 390, "y": 155.5}, {"x": 378.6925675941001, "y": 246.49048660344835}]}, {"id": "d0cca555", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id11", "target": "id13", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 378.6925675941001, "y": 297.49048660344835}, {"x": 380, "y": 364.5}]}, {"id": "4a4d2315", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id6", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 398.03122292025694, "y": 408.03122292025694}, {"x": 481.96877707974306, "y": 541.9687770797431}]}, {"id": "1decc9f6", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "发出请求", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id12", "sourceAnchor": 0, "targetAnchor": 3, "controlPoints": [{"x": 371.96877707974306, "y": 111.96877707974303}, {"x": 285.5, "y": 20}]}, {"id": "b6059753", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "访问数据文件", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id12", "target": "id16", "sourceAnchor": 5, "targetAnchor": 2, "controlPoints": [{"x": 260, "y": 45.5}, {"x": 214.18676323071432, "y": 95.33186736662648}]}, {"id": "258bd0ea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据组织与存储", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id16", "sourceAnchor": 1, "targetAnchor": 6, "controlPoints": [{"x": 160, "y": 194.5}, {"x": 178.1243173902004, "y": 131.3943132071404}]}, {"id": "1f27bd83", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据管理与控制", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id0", "sourceAnchor": 3, "controlPoints": [{"x": 185.5, "y": 220}, {"x": 364.5, "y": 130}]}, {"id": "00b91ded", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id14", "sourceAnchor": 1, "targetAnchor": 5, "controlPoints": [{"x": 0, "y": 184.5}, {"x": 18.37776253267957, "y": 53.60231931182675}]}, {"id": "1d79aa20", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id17", "sourceAnchor": 3, "targetAnchor": 7, "controlPoints": [{"x": 25.5, "y": 210}, {"x": 134.5, "y": 220}]}, {"id": "d140848e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id18", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 0, "y": 235.5}, {"x": 30, "y": 284.5}]}, {"id": "213982ef", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id22", "target": "id20", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 271.96877707974306, "y": 238.03122292025697}, {"x": 218.03122292025697, "y": 341.96877707974306}]}, {"id": "2b568e2e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id20", "target": "id19", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 181.96877707974303, "y": 378.03122292025694}, {"x": 68.03122292025697, "y": 441.96877707974306}]}, {"id": "9d8839cd", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "特点", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id19", "targetAnchor": 1}, {"id": "41e9865b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id6", "target": "id21", "targetAnchor": 3}, {"id": "166da744", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id21", "target": "id19", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 214.5, "y": 440}, {"x": 75.5, "y": 460}]}, {"id": "5f1b00a9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id22", "sourceAnchor": 0, "targetAnchor": 5, "controlPoints": [{"x": 361.96877707974306, "y": 371.96877707974306}, {"x": 290, "y": 245.5}]}, {"id": "a4262658", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id8", "target": "id22", "sourceAnchor": 7, "targetAnchor": 4, "controlPoints": [{"x": 824.5, "y": 600}, {"x": 308.03122292025694, "y": 238.03122292025697}]}, {"id": "a6818e6e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id9", "target": "id23", "sourceAnchor": 7, "controlPoints": [{"x": 554.5, "y": 340}, {"x": 485.5, "y": 300}]}, {"id": "1be79aea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id23", "target": "id6", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 460, "y": 325.5}, {"x": 500, "y": 534.5}]}, {"id": "12882de9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id14", "target": "id12", "sourceAnchor": 3, "controlPoints": [{"x": 43.87776253267957, "y": 28.102319311826747}, {"x": 234.5, "y": 20}]}], "nodes": [{"x": 390, "y": 130, "id": "id0", "size": 50, "label": {"fill": "#000000", "text": "数据库2管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 640, "y": -80, "id": "id2", "size": 50, "label": {"fill": "#000000", "text": "终端1用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 520, "y": 20, "id": "id1", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 740, "y": 40, "id": "id4", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 750, "y": 100, "id": "id3", "size": 50, "label": {"fill": "#000000", "text": "专业人员", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 770, "y": 160, "id": "id5", "size": 50, "label": {"fill": "#000000", "text": "数据库管理工具", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 378.6925675941001, "y": 271.99048660344835, "id": "id11", "size": 50, "label": {"fill": "#000000", "text": "概念级全体数据", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 260, "y": 20, "id": "id12", "size": 50, "label": {"fill": "#000000", "text": "操作系统3", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 18.37776253267957, "y": 28.102319311826747, "id": "id14", "size": 50, "label": {"fill": "#000000", "text": "文件系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 196.15554031045735, "y": 113.36309028688343, "id": "id16", "size": 50, "label": {"fill": "#000000", "text": "数据库DB", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 160, "y": 220, "id": "id17", "size": 50, "label": {"fill": "#000000", "text": "数据库系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 0, "y": 210, "id": "id15", "size": 50, "label": {"fill": "#000000", "text": "数据库管理系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 290, "y": 220, "id": "id22", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 200, "y": 360, "id": "id20", "size": 50, "label": {"fill": "#000000", "text": "逻辑独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 240, "y": 440, "id": "id21", "size": 50, "label": {"fill": "#000000", "text": "物理独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 50, "y": 460, "id": "id19", "size": 50, "label": {"fill": "#000000", "text": "数据独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 380, "y": 390, "id": "id13", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 690, "y": 290, "id": "id7", "size": 50, "label": {"fill": "#000000", "text": "外部级用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 580, "y": 340, "id": "id9", "size": 50, "label": {"fill": "#000000", "text": "内部级存储", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 850, "y": 600, "id": "id8", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 500, "y": 560, "id": "id6", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 460, "y": 300, "id": "id23", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 30, "y": 310, "id": "id18", "size": 50, "label": {"fill": "#000000", "text": "人工管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}]}} 
+    var bb = {"guides": [], "source": {"edges": [{"id": "9d09ebba", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "操作数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id3", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 724.5, "y": 100}, {"x": 415.5, "y": 130}]}, {"id": "b17508da", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "利用程序开启", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id4", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 714.5, "y": 40}, {"x": 415.5, "y": 130}]}, {"id": "85eca4e7", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "使用系统", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id2", "target": "id1", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 621.9687770797431, "y": -61.96877707974304}, {"x": 538.0312229202569, "y": 1.96877707974304}]}, {"id": "2145664b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "嵌入数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id1", "target": "id0", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 501.96877707974306, "y": 38.03122292025696}, {"x": 408.03122292025694, "y": 111.96877707974303}]}, {"id": "538294de", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理和控制数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id5", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 744.5, "y": 160}, {"x": 415.5, "y": 130}]}, {"id": "16dfc9d1", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id7", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 671.9687770797431, "y": 271.96877707974306}]}, {"id": "28fa62aa", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id7", "target": "id8", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 708.0312229202569, "y": 308.03122292025694}, {"x": 831.9687770797431, "y": 581.9687770797431}]}, {"id": "5b78ae74", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id9", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 561.9687770797431, "y": 321.96877707974306}]}, {"id": "96b50b4f", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id11", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 390, "y": 155.5}, {"x": 378.6925675941001, "y": 246.49048660344835}]}, {"id": "d0cca555", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描1述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id11", "target": "id13", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 378.6925675941001, "y": 297.49048660344835}, {"x": 380, "y": 364.5}]}, {"id": "4a4d2315", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id6", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 398.03122292025694, "y": 408.03122292025694}, {"x": 481.96877707974306, "y": 541.9687770797431}]}, {"id": "1decc9f6", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "发出请求", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id12", "sourceAnchor": 0, "targetAnchor": 3, "controlPoints": [{"x": 371.96877707974306, "y": 111.96877707974303}, {"x": 285.5, "y": 20}]}, {"id": "b6059753", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "访问数据文件", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id12", "target": "id16", "sourceAnchor": 5, "targetAnchor": 2, "controlPoints": [{"x": 260, "y": 45.5}, {"x": 214.18676323071432, "y": 95.33186736662648}]}, {"id": "258bd0ea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据组织与存储", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id16", "sourceAnchor": 1, "targetAnchor": 6, "controlPoints": [{"x": 160, "y": 194.5}, {"x": 178.1243173902004, "y": 131.3943132071404}]}, {"id": "1f27bd83", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据管理与控制", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id0", "sourceAnchor": 3, "controlPoints": [{"x": 185.5, "y": 220}, {"x": 364.5, "y": 130}]}, {"id": "00b91ded", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id14", "sourceAnchor": 1, "targetAnchor": 5, "controlPoints": [{"x": 0, "y": 184.5}, {"x": 18.37776253267957, "y": 53.60231931182675}]}, {"id": "1d79aa20", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id17", "sourceAnchor": 3, "targetAnchor": 7, "controlPoints": [{"x": 25.5, "y": 210}, {"x": 134.5, "y": 220}]}, {"id": "d140848e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id18", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 0, "y": 235.5}, {"x": 30, "y": 284.5}]}, {"id": "213982ef", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id22", "target": "id20", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 271.96877707974306, "y": 238.03122292025697}, {"x": 218.03122292025697, "y": 341.96877707974306}]}, {"id": "2b568e2e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id20", "target": "id19", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 181.96877707974303, "y": 378.03122292025694}, {"x": 68.03122292025697, "y": 441.96877707974306}]}, {"id": "9d8839cd", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "特点", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id19", "targetAnchor": 1}, {"id": "41e9865b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id6", "target": "id21", "targetAnchor": 3}, {"id": "166da744", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id21", "target": "id19", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 214.5, "y": 440}, {"x": 75.5, "y": 460}]}, {"id": "5f1b00a9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id22", "sourceAnchor": 0, "targetAnchor": 5, "controlPoints": [{"x": 361.96877707974306, "y": 371.96877707974306}, {"x": 290, "y": 245.5}]}, {"id": "a4262658", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id8", "target": "id22", "sourceAnchor": 7, "targetAnchor": 4, "controlPoints": [{"x": 824.5, "y": 600}, {"x": 308.03122292025694, "y": 238.03122292025697}]}, {"id": "a6818e6e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id9", "target": "id23", "sourceAnchor": 7, "controlPoints": [{"x": 554.5, "y": 340}, {"x": 485.5, "y": 300}]}, {"id": "1be79aea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id23", "target": "id6", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 460, "y": 325.5}, {"x": 500, "y": 534.5}]}, {"id": "12882de9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id14", "target": "id12", "sourceAnchor": 3, "controlPoints": [{"x": 43.87776253267957, "y": 28.102319311826747}, {"x": 234.5, "y": 20}]}], "nodes": [{"x": 390, "y": 130, "id": "id0", "size": 50, "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 640, "y": -80, "id": "id2", "size": 50, "label": {"fill": "#000000", "text": "终端用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 520, "y": 20, "id": "id1", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 740, "y": 40, "id": "id4", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 750, "y": 100, "id": "id3", "size": 50, "label": {"fill": "#000000", "text": "专业人员", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 770, "y": 160, "id": "id5", "size": 50, "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 378.6925675941001, "y": 271.99048660344835, "id": "id11", "size": 50, "label": {"fill": "#000000", "text": "概念级全体数据", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 260, "y": 20, "id": "id12", "size": 50, "label": {"fill": "#000000", "text": "操作系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 18.37776253267957, "y": 28.102319311826747, "id": "id14", "size": 50, "label": {"fill": "#000000", "text": "文件系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 196.15554031045735, "y": 113.36309028688343, "id": "id16", "size": 50, "label": {"fill": "#000000", "text": "数据库DB", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 160, "y": 220, "id": "id17", "size": 50, "label": {"fill": "#000000", "text": "数据库系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 0, "y": 210, "id": "id15", "size": 50, "label": {"fill": "#000000", "text": "数据管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 290, "y": 220, "id": "id22", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 200, "y": 360, "id": "id20", "size": 50, "label": {"fill": "#000000", "text": "逻辑独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 240, "y": 440, "id": "id21", "size": 50, "label": {"fill": "#000000", "text": "物理独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 50, "y": 460, "id": "id19", "size": 50, "label": {"fill": "#000000", "text": "数据独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 380, "y": 390, "id": "id13", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 690, "y": 290, "id": "id7", "size": 50, "label": {"fill": "#000000", "text": "外部级用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 580, "y": 340, "id": "id9", "size": 50, "label": {"fill": "#000000", "text": "内部级存储", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 850, "y": 600, "id": "id8", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 500, "y": 560, "id": "id6", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 460, "y": 300, "id": "id23", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 30, "y": 310, "id": "id18", "size": 50, "label": {"fill": "#000000", "text": "人工管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}]}} 
+    var Util = G6.Util;
+    const graph = new G6.Net({
+      id: 'mountNodea',
+      mode: 'edit',
+      fitView: 'autoZoom'
+    });
+    graph.read(Util.clone(aa));
+    // graph.source(aa.source.nodes, aa.source.edges);
+    graph.render();
+
+
+    const graphb = new G6.Net({
+      id: 'mountNodeb',
+      mode: 'edit',
+      fitView: 'autoZoom'
+    });
+    graphb.read(Util.clone(bb));
+    // graphb.source(bb.source.nodes, bb.source.edges);
+    graphb.render();
+
+
+
+    // for (var i = 0; i < aa.source.length; i ++) {
+    // 	aa.
+    // }
+    // 创建8个节点
+    var bk0, bk1, bk2, bk3, bk4, bk5, bk6, bk7,bk8,bk9,bk10, bk11, bk12, bk13, bk14, bk15, bk16, bk17,bk18,bk19,bk20,bk21,bk22;
+  var bj0, bj1, bj2, bj3, bj4, bj5, bj6, bj7,bj8,bj9,bj10, bj11, bj12, bj13, bj14, bj15, bj16, bj17,bj18,bj19,bj20,bj21,bj22;
+
+    function ready() {
+      // console.log(aa.source.nodes
+      bk0 = aa.source.nodes[0];
+      bk1 = aa.source.nodes[1];
+      bk2 = aa.source.nodes[2];
+      bk3 = aa.source.nodes[3];
+      bk4 = aa.source.nodes[4];
+      bk5 = aa.source.nodes[5];
+      bk6 = aa.source.nodes[6];
+      bk7 = aa.source.nodes[7];
+      bk8 = aa.source.nodes[8];
+      bk9 = aa.source.nodes[9];
+      bk10 = aa.source.nodes[7];
+
+      bk11 = aa.source.nodes[11];
+      bk12 = aa.source.nodes[12];
+      bk13 = aa.source.nodes[13];
+      bk14 = aa.source.nodes[14];
+      bk15 = aa.source.nodes[15];
+      bk16 = aa.source.nodes[16];
+      bk17 = aa.source.nodes[17];
+      bk18 = aa.source.nodes[18];
+      bk19 = aa.source.nodes[19];
+      bk20 = aa.source.nodes[20];
+      bk21 = aa.source.nodes[21];
+      bk22 = aa.source.nodes[22];
+    }
+
+    function readyb() {
+      bj0 = bb.source.nodes[0];
+      bj1 = bb.source.nodes[1];
+      bj2 = bb.source.nodes[2];
+      bj3 = bb.source.nodes[3];
+      bj4 = bb.source.nodes[4];
+      bj5 = bb.source.nodes[5];
+      bj6 = bb.source.nodes[6];
+      bj7 = bb.source.nodes[7];
+      bj8 = bb.source.nodes[8];
+      bj9 = bb.source.nodes[9];
+      bj10 = bb.source.nodes[7];
+
+      bj11 = bb.source.nodes[11];
+      bj12 = bb.source.nodes[12];
+      bj13 = bb.source.nodes[13];
+      bj14 = bb.source.nodes[14];
+      bj15 = bb.source.nodes[15];
+      bj16 = bb.source.nodes[16];
+      bj17 = bb.source.nodes[17];
+      bj18 = bb.source.nodes[18];
+      bj19 = bb.source.nodes[19];
+      bj20 = bb.source.nodes[20];
+      bj21 = bb.source.nodes[21];
+      bj22 = bb.source.nodes[22];
+    }
+
+
+      var aboxa_data = [];
+      var aboxb_data = [];
+
+      var boxa_data = [];
+      var boxb_data = [];
+    function dba() {
+         for (var ia = 0; ia < aa.source.edges.length; ia++) {
+
+          for (var ib = 0; ib < aa.source.nodes.length; ib++) {
+              if (aa.source.edges[ia].source == aa.source.nodes[ib].id) {
+                 aa.source.edges[ia].soxq = aa.source.nodes[ib];
+              }
+              if (aa.source.edges[ia].target == aa.source.nodes[ib].id) {
+                  aa.source.edges[ia].taxq = aa.source.nodes[ib];
+                }
+          }
+        }
+
+        for (var ia = 0; ia < bb.source.edges.length; ia++) {
+          for (var ib = 0; ib < bb.source.nodes.length; ib++) {
+           if (bb.source.edges[ia].source == bb.source.nodes[ib].id) {
+                 bb.source.edges[ia].soxq = bb.source.nodes[ib];
+              }
+              if (bb.source.edges[ia].target == bb.source.nodes[ib].id) {
+                  bb.source.edges[ia].taxq = bb.source.nodes[ib];
+                }
+            }
+          }
+          console.log(bb.source.edges);
+
+      //     // bb.source.edges[ia].source;
+      //     // bb.source.edges[ia].target;
+      //     // if (bb.source.edges[ia].source == eval("bj" + i).id) {
+      //     //   bb.source.edges[ia].soxq = eval("bj" + i);
+      //     // }
+      //     // if (bb.source.edges[ia].target == eval("bj" + i).id) {
+      //     //   bb.source.edges[ia].taxq = eval("bj" + i);
+      //     // }
+      // }
+      // // 先对比点
+      for (var i = 0; i < aa.source.nodes.length; i++) {
+        // console.log(aa.source.nodes[i].label.text);
+        var numa = 0;
+        var numa_dataa;
+        var numa_datab;
+        numa_dataa = aa.source.nodes[i];
+        for (var ib = 0; ib < bb.source.nodes.length; ib++) {
+          if (aa.source.nodes[i].label.text == bb.source.nodes[ib].label.text) {
+            numa++;
+            numa_datab = bb.source.nodes[ib];
+          } else {}
+        }
+        if (numa == 0) {
+          // console.log(aa.source.nodes[i]);
+          aa.source.nodes[i].style.fill = '#ed4014';
+          aa.source.nodes[i].style.fillOpacity = '1';
+          aa.source.nodes[i].label.fill = '#ffffff';
+          aa.source.nodes[i].style.stroke = '#ed4014';
+          aboxa_data[aboxa_data.length] =  aa.source.nodes[i].label.text;
+          graph.clear();
+          graph.read(Util.clone(aa));
+          graph.render();
+        }
+      }
+      for (var i = 0; i < bb.source.nodes.length; i++) {
+        // console.log(aa.source.nodes[i].label.text);
+        var numa = 0;
+        var numa_dataa;
+        numa_dataa = bb.source.nodes[i];
+        for (var ib = 0; ib < aa.source.nodes.length; ib++) {
+          if (bb.source.nodes[i].label.text == aa.source.nodes[ib].label.text) {
+            numa++;
+          } else {}
+        }
+        if (numa == 0) {
+          // console.log(aa.source.nodes[i]);
+          bb.source.nodes[i].style.fill = '#ed4014';
+          bb.source.nodes[i].style.fillOpacity = '1';
+          bb.source.nodes[i].label.fill = '#ffffff';
+          bb.source.nodes[i].style.stroke = '#ed4014';
+          aboxb_data[aboxb_data.length] =  bb.source.nodes[i].label.text;
+          graphb.clear();
+          graphb.read(Util.clone(bb));
+          graphb.render();
+        }
+      }
+      // 判断线
+      for (var i = 0; i < aa.source.edges.length; i++) {
+        var numa = 0;
+        var numa_data;
+        for (var ib = 0; ib < bb.source.edges.length; ib++) {
+          if (aa.source.edges[i].soxq.label.text == bb.source.edges[ib].soxq.label.text && aa.source.edges[i].taxq.label.text == bb.source.edges[ib].taxq.label.text && aa.source.edges[i].label.text == bb.source.edges[ib].label.text) {
+            numa++;
+          }
+        }
+        if (numa == 0) {
+          aa.source.edges[i].color = 'blue';
+          // aa.source.nodes[i].style.fillOpacity = '1';
+          aa.source.edges[i].label.fill = 'blue';
+          // aa.source.nodes[i].style.stroke = '#ed4014';
+          boxa_data[boxa_data.length] =  aa.source.edges[i].label.text;
+          graph.clear();
+          graph.read(Util.clone(aa));
+          graph.render();
+        }
+      }
+
+
+
+ for (var i = 0; i < bb.source.edges.length; i++) {
+        var numa = 0;
+        var numa_data;
+        for (var ib = 0; ib < aa.source.edges.length; ib++) {
+          if (bb.source.edges[i].soxq.label.text == aa.source.edges[ib].soxq.label.text && bb.source.edges[i].taxq.label.text == aa.source.edges[ib].taxq.label.text && bb.source.edges[i].label.text == aa.source.edges[ib].label.text) {
+            numa++;
+          }
+        }
+        if (numa == 0) {
+          bb.source.edges[i].color = 'blue';
+          // bb.source.nodes[i].style.fillOpacity = '1';
+          bb.source.edges[i].label.fill = 'blue';
+          // bb.source.nodes[i].style.stroke = '#ed4014';
+          boxb_data[boxb_data.length] =  bb.source.edges[i].label.text;
+          graphb.clear();
+          graphb.read(Util.clone(bb));
+          graphb.render();
+        }
+      }
+
+
+      console.log(boxa_data);
+      console.log(boxb_data);
+
+
+      console.log(aboxa_data);
+      console.log(aboxb_data);
+      $('.tablec').empty();
+     
+      if (aboxa_data.length == 0) {
+
+      } else {
+         $('.tablec').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图1不同</div>');
+          for (var i = 0; i < aboxa_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  aboxa_data[i] +'</div>';
+            // <tr><td>'+ aboxa_data[i] +'</td></tr>'
+            $('.tablec').append(mca);
+          }
+      }
+
+      $('.tabled').empty();
+      if (aboxb_data.length == 0) {
+
+      } else {
+         $('.tabled').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图2不同</div>');
+          for (var i = 0; i < aboxb_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  aboxb_data[i] +'</div>';
+            // <tr><td>'+ aboxb_data[i] +'</td> </tr>
+            $('.tabled').append(mca);
+          }
+      }
+
+
+       $('.tablee').empty();
+      if (boxa_data.length == 0) {
+
+      } else {
+         $('.tablee').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图1不同</div>');
+          for (var i = 0; i < boxa_data.length; i++) {
+            var mca = '';
+            mca = mca + '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  boxa_data[i] +'</div>'
+            // '<tr><td>'+ boxa_data[i] +'</td> </tr>'
+            $('.tablee').append(mca);
+          }
+      }
+
+      $('.tablef').empty();
+      if (boxb_data.length == 0) {
+
+      } else {
+         $('.tablef').append('<div class="oa" style="text-align: center;border:1px solid #aaa;">图2不同</div>');
+          for (var i = 0; i < boxb_data.length; i++) {
+            var mca = '';
+            mca = mca +  '<div class="oa" style="text-align: center;border:1px solid #aaa;">'+  boxb_data[i] +'</div>'
+            $('.tablef').append(mca);
+          }
+      }
+      
+      // 
+      // // <tr>
+      //     <td>图1不同</td>
+      //   </tr>
+// 
+
+// tablec
+// tabled
+
+
+// tableb
+//  <tr>
+    //   <th>不同之处</th>
+    // </tr>
+    // <tr>
+    //   <td>节点名称</td>
+    // </tr>
+    //  <tr>
+    //   <td>线顺序/线名称</td>
+    // </tr>
+
+
+
+
+      // 节点
+      // 方法
+      // 1 吧节点全部倒入到线里面，进行线对比
+    }
+
+
+
+
+
+
+
+
+    // var bl_lista = []; // 变量名称储存;
+    // var bl_listb = []; // 变量名称储存;
+    //  function ready () {
+    //   // var bl_lista = []; // 变量名称储存;
+    //   for (var i = 0; i < aa.source.nodes.length; i++) {
+    //       //var param = arguments[i];
+    //       var cc = aa.source.nodes[i].label.text;
+    //       eval("var bk" + i + "='"+cc+ "'" ) ;
+    //       // aa.source.nodes[i].label.text
+    //       // console.log(aa.source.nodes[i].label.text)
+    //       // + "=" +  aa.source.nodes[i]
+    //       bl_lista[bl_lista.length] =  ("bk" + i);
+    //       // eval_r("number_"+i.toString()+" = 120;");
+    //       // console.log((eval("param" + (i + 1))));
+    //       // console.log(eval("param" + i));
+    //       // .toString() + "= arguments[" + i + "]")
+    //   }
+    //   console.log(bl_lista)
+    // }
+    // function looka () {
+    //   console.log(bk0);
+    //   // for (var i = 0; i < bl_lista.length; i++) {
+    //   //   // console.log((eval(""+bl_lista[i] )))
+    //   //   console.log(bl_lista[i])
+    //   // }
+    //
+    // }
+    //
+    // function readyb () {
+    //   for (var i = 0; i < bb.source.nodes.length; i++) {
+    //       //var param = arguments[i];
+    //       eval("var bj" + i + " =" +  bb.source.nodes[i]) ;
+    //       bl_listb[bl_listb.length] =  ("bj" + i);
+    //       // eval_r("number_"+i.toString()+" = 120;");
+    //       // console.log((eval("param" + (i + 1))));
+    //       // console.log(eval("param" + i));
+    //       // .toString() + "= arguments[" + i + "]")
+    //   }
+    //   console.log(bl_listb)
+    // }
+    //
+    // function dba () {
+    //
+    // }
+
+
+    var jt1 = {"guides": [], "source": {"edges": [{"id": "9d09ebba", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "操作数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id3", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 724.5, "y": 100}, {"x": 415.5, "y": 130}]}, {"id": "b17508da", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "利用程序开启", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id4", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 714.5, "y": 40}, {"x": 415.5, "y": 130}]}, {"id": "85eca4e7", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "使用系统", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id2", "target": "id1", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 621.9687770797431, "y": -61.96877707974304}, {"x": 538.0312229202569, "y": 1.96877707974304}]}, {"id": "2145664b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "嵌入数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id1", "target": "id0", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 501.96877707974306, "y": 38.03122292025696}, {"x": 408.03122292025694, "y": 111.96877707974303}]}, {"id": "538294de", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理和控制数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id5", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 744.5, "y": 160}, {"x": 415.5, "y": 130}]}, {"id": "16dfc9d1", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id7", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 671.9687770797431, "y": 271.96877707974306}]}, {"id": "28fa62aa", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id7", "target": "id8", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 708.0312229202569, "y": 308.03122292025694}, {"x": 831.9687770797431, "y": 581.9687770797431}]}, {"id": "5b78ae74", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id9", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 561.9687770797431, "y": 321.96877707974306}]}, {"id": "96b50b4f", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id11", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 390, "y": 155.5}, {"x": 378.6925675941001, "y": 246.49048660344835}]}, {"id": "d0cca555", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id11", "target": "id13", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 378.6925675941001, "y": 297.49048660344835}, {"x": 380, "y": 364.5}]}, {"id": "4a4d2315", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id6", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 398.03122292025694, "y": 408.03122292025694}, {"x": 481.96877707974306, "y": 541.9687770797431}]}, {"id": "1decc9f6", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "发出请求", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id12", "sourceAnchor": 0, "targetAnchor": 3, "controlPoints": [{"x": 371.96877707974306, "y": 111.96877707974303}, {"x": 285.5, "y": 20}]}, {"id": "b6059753", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "访问数据文件", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id12", "target": "id16", "sourceAnchor": 5, "targetAnchor": 2, "controlPoints": [{"x": 260, "y": 45.5}, {"x": 214.18676323071432, "y": 95.33186736662648}]}, {"id": "258bd0ea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据组织与存储", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id16", "sourceAnchor": 1, "targetAnchor": 6, "controlPoints": [{"x": 160, "y": 194.5}, {"x": 178.1243173902004, "y": 131.3943132071404}]}, {"id": "1f27bd83", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据管理与控制", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id0", "sourceAnchor": 3, "controlPoints": [{"x": 185.5, "y": 220}, {"x": 364.5, "y": 130}]}, {"id": "00b91ded", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id14", "sourceAnchor": 1, "targetAnchor": 5, "controlPoints": [{"x": 0, "y": 184.5}, {"x": 18.37776253267957, "y": 53.60231931182675}]}, {"id": "1d79aa20", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id17", "sourceAnchor": 3, "targetAnchor": 7, "controlPoints": [{"x": 25.5, "y": 210}, {"x": 134.5, "y": 220}]}, {"id": "d140848e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id18", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 0, "y": 235.5}, {"x": 30, "y": 284.5}]}, {"id": "213982ef", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id22", "target": "id20", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 271.96877707974306, "y": 238.03122292025697}, {"x": 218.03122292025697, "y": 341.96877707974306}]}, {"id": "2b568e2e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id20", "target": "id19", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 181.96877707974303, "y": 378.03122292025694}, {"x": 68.03122292025697, "y": 441.96877707974306}]}, {"id": "9d8839cd", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "特点", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id19", "targetAnchor": 1}, {"id": "41e9865b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id6", "target": "id21", "targetAnchor": 3}, {"id": "166da744", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id21", "target": "id19", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 214.5, "y": 440}, {"x": 75.5, "y": 460}]}, {"id": "5f1b00a9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id22", "sourceAnchor": 0, "targetAnchor": 5, "controlPoints": [{"x": 361.96877707974306, "y": 371.96877707974306}, {"x": 290, "y": 245.5}]}, {"id": "a4262658", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id8", "target": "id22", "sourceAnchor": 7, "targetAnchor": 4, "controlPoints": [{"x": 824.5, "y": 600}, {"x": 308.03122292025694, "y": 238.03122292025697}]}, {"id": "a6818e6e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id9", "target": "id23", "sourceAnchor": 7, "controlPoints": [{"x": 554.5, "y": 340}, {"x": 485.5, "y": 300}]}, {"id": "1be79aea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id23", "target": "id6", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 460, "y": 325.5}, {"x": 500, "y": 534.5}]}, {"id": "12882de9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id14", "target": "id12", "sourceAnchor": 3, "controlPoints": [{"x": 43.87776253267957, "y": 28.102319311826747}, {"x": 234.5, "y": 20}]}], "nodes": [{"x": 390, "y": 130, "id": "id0", "size": 50, "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 640, "y": -80, "id": "id2", "size": 50, "label": {"fill": "#000000", "text": "终端用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 520, "y": 20, "id": "id1", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 740, "y": 40, "id": "id4", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 750, "y": 100, "id": "id3", "size": 50, "label": {"fill": "#000000", "text": "专业人员", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 770, "y": 160, "id": "id5", "size": 50, "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 378.6925675941001, "y": 271.99048660344835, "id": "id11", "size": 50, "label": {"fill": "#000000", "text": "概念级全体数据", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 260, "y": 20, "id": "id12", "size": 50, "label": {"fill": "#000000", "text": "操作系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 18.37776253267957, "y": 28.102319311826747, "id": "id14", "size": 50, "label": {"fill": "#000000", "text": "文件系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 196.15554031045735, "y": 113.36309028688343, "id": "id16", "size": 50, "label": {"fill": "#000000", "text": "数据库DB", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 160, "y": 220, "id": "id17", "size": 50, "label": {"fill": "#000000", "text": "数据库系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 0, "y": 210, "id": "id15", "size": 50, "label": {"fill": "#000000", "text": "数据管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 290, "y": 220, "id": "id22", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 200, "y": 360, "id": "id20", "size": 50, "label": {"fill": "#000000", "text": "逻辑独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 240, "y": 440, "id": "id21", "size": 50, "label": {"fill": "#000000", "text": "物理独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 50, "y": 460, "id": "id19", "size": 50, "label": {"fill": "#000000", "text": "数据独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 380, "y": 390, "id": "id13", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 690, "y": 290, "id": "id7", "size": 50, "label": {"fill": "#000000", "text": "外部级用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 580, "y": 340, "id": "id9", "size": 50, "label": {"fill": "#000000", "text": "内部级存储", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 850, "y": 600, "id": "id8", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 500, "y": 560, "id": "id6", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 460, "y": 300, "id": "id23", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 30, "y": 310, "id": "id18", "size": 50, "label": {"fill": "#000000", "text": "人工管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}]}}
+    // var jt1 = {
+    //     "format": "example",
+    //     "content": [{
+    //         "align": "center",
+    //         "depth": 0,
+    //         "list": false,
+    //         "content": [{
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "FFFFFF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "And please, feel free to send us your feedback and comments to "
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "4DC3FF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "hello world"
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "FFFFFF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": ", or just by clicking on the "
+    //         }, {
+    //             "style": {
+    //                 "underline": 1,
+    //                 "bold": 2,
+    //                 "size": 20,
+    //                 "italic": 2,
+    //                 "color": "4DC3FF",
+    //                 "fontFamily": "Arial"
+    //             },
+    //             "content": "feedback"
+    //         }, {
+    //             "content": " button up above.",
+    //             "style": {
+    //                 "size": 20,
+    //                 "color": "FFFFFF",
+    //                 "name": "Arial",
+    //                 "bold": 2,
+    //                 "italic": 2,
+    //                 "underline": 2
+    //             }
+    //         }],
+    //         "ordered": false
+    //     }],
+    //     "version": 3
+    // };
+    var jt2 = {"guides": [], "source": {"edges": [{"id": "9d09ebba", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "操作数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id3", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 724.5, "y": 100}, {"x": 415.5, "y": 130}]}, {"id": "b17508da", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "利用程序开启", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id4", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 714.5, "y": 40}, {"x": 415.5, "y": 130}]}, {"id": "85eca4e7", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "使用系统", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id2", "target": "id1", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 621.9687770797431, "y": -61.96877707974304}, {"x": 538.0312229202569, "y": 1.96877707974304}]}, {"id": "2145664b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "嵌入数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id1", "target": "id0", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 501.96877707974306, "y": 38.03122292025696}, {"x": 408.03122292025694, "y": 111.96877707974303}]}, {"id": "538294de", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理和控制数据库", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id5", "target": "id0", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 744.5, "y": 160}, {"x": 415.5, "y": 130}]}, {"id": "16dfc9d1", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id7", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 671.9687770797431, "y": 271.96877707974306}]}, {"id": "28fa62aa", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id7", "target": "id8", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 708.0312229202569, "y": 308.03122292025694}, {"x": 831.9687770797431, "y": 581.9687770797431}]}, {"id": "5b78ae74", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id9", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 408.03122292025694, "y": 148.03122292025697}, {"x": 561.9687770797431, "y": 321.96877707974306}]}, {"id": "96b50b4f", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "ANSI或SPBRC体系结构", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id11", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 390, "y": 155.5}, {"x": 378.6925675941001, "y": 246.49048660344835}]}, {"id": "d0cca555", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id11", "target": "id13", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 378.6925675941001, "y": 297.49048660344835}, {"x": 380, "y": 364.5}]}, {"id": "4a4d2315", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id6", "sourceAnchor": 4, "targetAnchor": 0, "controlPoints": [{"x": 398.03122292025694, "y": 408.03122292025694}, {"x": 481.96877707974306, "y": 541.9687770797431}]}, {"id": "1decc9f6", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "发出请求", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id0", "target": "id12", "sourceAnchor": 0, "targetAnchor": 3, "controlPoints": [{"x": 371.96877707974306, "y": 111.96877707974303}, {"x": 285.5, "y": 20}]}, {"id": "b6059753", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "访问数据文件", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id12", "target": "id16", "sourceAnchor": 5, "targetAnchor": 2, "controlPoints": [{"x": 260, "y": 45.5}, {"x": 214.18676323071432, "y": 95.33186736662648}]}, {"id": "258bd0ea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据组织与存储", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id16", "sourceAnchor": 1, "targetAnchor": 6, "controlPoints": [{"x": 160, "y": 194.5}, {"x": 178.1243173902004, "y": 131.3943132071404}]}, {"id": "1f27bd83", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据管理与控制", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id0", "sourceAnchor": 3, "controlPoints": [{"x": 185.5, "y": 220}, {"x": 364.5, "y": 130}]}, {"id": "00b91ded", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id14", "sourceAnchor": 1, "targetAnchor": 5, "controlPoints": [{"x": 0, "y": 184.5}, {"x": 18.37776253267957, "y": 53.60231931182675}]}, {"id": "1d79aa20", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id17", "sourceAnchor": 3, "targetAnchor": 7, "controlPoints": [{"x": 25.5, "y": 210}, {"x": 134.5, "y": 220}]}, {"id": "d140848e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "管理阶段", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id15", "target": "id18", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 0, "y": 235.5}, {"x": 30, "y": 284.5}]}, {"id": "213982ef", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id22", "target": "id20", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 271.96877707974306, "y": 238.03122292025697}, {"x": 218.03122292025697, "y": 341.96877707974306}]}, {"id": "2b568e2e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id20", "target": "id19", "sourceAnchor": 6, "targetAnchor": 2, "controlPoints": [{"x": 181.96877707974303, "y": 378.03122292025694}, {"x": 68.03122292025697, "y": 441.96877707974306}]}, {"id": "9d8839cd", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "特点", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id17", "target": "id19", "targetAnchor": 1}, {"id": "41e9865b", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "提供", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id6", "target": "id21", "targetAnchor": 3}, {"id": "166da744", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "保证", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id21", "target": "id19", "sourceAnchor": 7, "targetAnchor": 3, "controlPoints": [{"x": 214.5, "y": 440}, {"x": 75.5, "y": 460}]}, {"id": "5f1b00a9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id13", "target": "id22", "sourceAnchor": 0, "targetAnchor": 5, "controlPoints": [{"x": 361.96877707974306, "y": 371.96877707974306}, {"x": 290, "y": 245.5}]}, {"id": "a4262658", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id8", "target": "id22", "sourceAnchor": 7, "targetAnchor": 4, "controlPoints": [{"x": 824.5, "y": 600}, {"x": 308.03122292025694, "y": 238.03122292025697}]}, {"id": "a6818e6e", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "描述", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id9", "target": "id23", "sourceAnchor": 7, "controlPoints": [{"x": 554.5, "y": 340}, {"x": 485.5, "y": 300}]}, {"id": "1be79aea", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "请求和结果转换", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id23", "target": "id6", "sourceAnchor": 5, "targetAnchor": 1, "controlPoints": [{"x": 460, "y": 325.5}, {"x": 500, "y": 534.5}]}, {"id": "12882de9", "size": 2, "color": "#000", "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "line", "style": {"arrow": true}, "value": 5, "source": "id14", "target": "id12", "sourceAnchor": 3, "controlPoints": [{"x": 43.87776253267957, "y": 28.102319311826747}, {"x": 234.5, "y": 20}]}], "nodes": [{"x": 390, "y": 130, "id": "id0", "size": 50, "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 640, "y": -80, "id": "id2", "size": 50, "label": {"fill": "#000000", "text": "终端用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 520, "y": 20, "id": "id1", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 740, "y": 40, "id": "id4", "size": 50, "label": {"fill": "#000000", "text": "应用程序", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 750, "y": 100, "id": "id3", "size": 50, "label": {"fill": "#000000", "text": "专业人员", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 770, "y": 160, "id": "id5", "size": 50, "label": {"fill": "#000000", "text": "数据库管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 378.6925675941001, "y": 271.99048660344835, "id": "id11", "size": 50, "label": {"fill": "#000000", "text": "概念级全体数据", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 260, "y": 20, "id": "id12", "size": 50, "label": {"fill": "#000000", "text": "操作系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 18.37776253267957, "y": 28.102319311826747, "id": "id14", "size": 50, "label": {"fill": "#000000", "text": "文件系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 196.15554031045735, "y": 113.36309028688343, "id": "id16", "size": 50, "label": {"fill": "#000000", "text": "数据库DB", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 160, "y": 220, "id": "id17", "size": 50, "label": {"fill": "#000000", "text": "数据库系统", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 0, "y": 210, "id": "id15", "size": 50, "label": {"fill": "#000000", "text": "数据管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 290, "y": 220, "id": "id22", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 200, "y": 360, "id": "id20", "size": 50, "label": {"fill": "#000000", "text": "逻辑独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 240, "y": 440, "id": "id21", "size": 50, "label": {"fill": "#000000", "text": "物理独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 50, "y": 460, "id": "id19", "size": 50, "label": {"fill": "#000000", "text": "数据独立性", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 380, "y": 390, "id": "id13", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 690, "y": 290, "id": "id7", "size": 50, "label": {"fill": "#000000", "text": "外部级用户", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 580, "y": 340, "id": "id9", "size": 50, "label": {"fill": "#000000", "text": "内部级存储", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 850, "y": 600, "id": "id8", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 500, "y": 560, "id": "id6", "size": 50, "label": {"fill": "#000000", "text": "概念模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 460, "y": 300, "id": "id23", "size": 50, "label": {"fill": "#000000", "text": "外模式", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}, {"x": 30, "y": 310, "id": "id18", "size": 50, "label": {"fill": "#000000", "text": "人工管理", "fontSize": "13"}, "shape": "circle", "style": {"fill": "white", "stroke": "#000000"}}]}}
+
+    var t1 = document.getElementById("text1");
+
+    t1.value = JSON.stringify(jt1);
+
+    var t2 = document.getElementById("text2");
+    t2.value = JSON.stringify(jt2);
+
+    var _diff = new Diff({
+      "left": "text1",
+      "right": "text2",
+      "targetId": "result"
+    });
+
+
+    $("#compare").click(function() {
+      _diff.compare();
+    });
+    $("#swap").click(function() {
+      _diff.swap();
+    });
+    $("#clear").click(function() {
+      _diff.clear();
+    });
+
+    $("#expand").click(function() {
+      _diff.expandAll();
+    });
+
+    $("#fade-in").click(function() {
+      _diff.fadeIn();
+    });
+
+    $("#fade-out").click(function() {
+      _diff.fadeOut();
+    });
+
+    $("#collapseAll").click(function() {
+      _diff.collapseAll();
+    });
+
+    $("#collapse").click(function() {
+      _diff.collapse(document.getElementById("result"));
+    });
+  </script>
+</body>
+
+</html>

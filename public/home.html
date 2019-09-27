@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<script src="/jquery-3.2.1.min.js"></script>
+		<script src="https://gw.alipayobjects.com/os/antv/assets/g6/1.2.8/g6.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 crossorigin="anonymous">
+
+		<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+		 crossorigin="anonymous">
+
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		 crossorigin="anonymous"></script>
+		<title>列表</title>
+		<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+
+				 .modela,.modelb{
+							 background: white;
+							 position: fixed;
+							 left: 50%;
+							 top:100px;
+							 width: 400px;
+							 height: 200px;
+							 margin-left: -250px;
+							 border-radius: 10px;
+							 box-shadow: 5px 5px 5px #CCCCCC, -5px -5px 5px #CCCCCC;
+							 display: none;
+			}
+
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-default" style="margin:0px">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header" style="padding-left:50px;">
+					<a class="navbar-brand" href="#">概念图</a>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<ul class="nav navbar-nav">
+					<li class="add"><a href="#">新增</a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li class=""><a traget="blank" href="/duibi.html">对比模式</a></li>
+				</ul>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="namea"></span>
+									<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="/login.html">退出</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+
+		<div class="row main" style="padding: 20px;">
+			<!-- <div class="col-xs-2" style="margin: 20px;">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="thumbnail">
+							<div class="caption">
+								<div  style="padding: 10px;">标题1</div>
+								<div style="padding: 10px;">
+									<button class="btn btn-primary" role="button">进 入</button>
+									<button class="btn btn-danger" role="button" style="margin-left: 10px;">删 除</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div> -->
+		</div>
+
+
+
+
+
+
+		<!-- 图形 -->
+		<div class="modela">
+			<div style="margin:20px">
+				名称
+				<input type="text" class="form-control titlea" placeholder="">
+			</div>
+			<div style="text-align: center;margin-top:50px;">
+				<button type="button" class="btn btn-primary" onclick="addb()">
+					确 定
+				</button>
+				<button type="button" class="btn btn-danger" onclick="hiddenb()">
+					取 消
+				</button>
+			</div>
+		</div>
+
+
+				<!-- 图形 -->
+		<div class="modelb">
+			<div style="margin:20px">
+				<h5>是否删除？</h5>
+			</div>
+			<div style="text-align: center;margin-top:50px;">
+						<button type="button" class="btn btn-primary" onclick="delb()">
+						确 认
+					</button>
+					<button type="button" class="btn btn-danger" onclick="hiddenc()">
+							取 消
+						</button>
+				</div>
+
+		</div>
+
+
+		<script>
+			var userid;
+			var name;
+			var username;
+			window.onload = function () {
+				var storage = window.localStorage;
+				userid = storage['userid'];
+				console.log(userid);
+				name = storage['name']
+				console.log(name);
+				username = storage['username']
+				$('.namea').text(name);
+				this.ready();
+				// console.log(userid)
+			}
+
+			function ready () {
+					$.ajax({
+					type: "post", //向后台请求的方式，有post，get两种方法
+					url: "/web/list", //url填写的是请求的路径
+					// cache : false,//缓存是否打开
+					data: { //请求的数据，
+						"userid": userid
+					},
+					dataType: 'json', //请求的数据类型
+					success: function(data) { //请求的返回成功的方法
+						console.log(data);
+						if (data.code == 200) {
+							for (var i = 0; i < data.data.length; i++) {
+								var aa ='<div class="col-xs-2" style="margin: 20px;">'
+										+'<div class="row">'
+										+'	<div class="col-xs-12">'
+											+'	<div class="thumbnail">'
+											+'		<div class="caption">'
+														+'<div  style="padding: 10px;">'+ data.data[i].title +'</div>'
+														+'<div style="padding: 10px;">'
+															+'<button class="btn btn-primary" role="button"  onclick="opena('+ data.data[i].ID +')">进 入</button> '
+															+'<button class="btn btn-danger" role="button" style="margin-left: 10px;" onclick="della('+ data.data[i].ID +')">删 除</button></div>'
+												+'	</div>'
+											+'	</div>'
+										+'	</div>'
+									+'	</div>'
+								+	'</div>'
+								$('.main').append(aa);
+							}
+						} else {
+						}
+					}
+				});
+			}
+
+			$(".add").click(function () {
+				$(".modela").css('display','block')
+			})
+			function addb () {
+					// 注册
+					var that = this;
+					$.ajax({
+						type: "post", //向后台请求的方式，有post，get两种方法
+						url: "/web/addlist", //url填写的是请求的路径
+						// cache : false,//缓存是否打开
+						data: { //请求的数据，
+							"title":$('.titlea').val(),
+							"userid": userid
+						},
+						dataType: 'json', //请求的数据类型
+						success: function(data) { //请求的返回成功的方法
+							console.log(data);
+							if (data.code == 200) {
+								$('.titlea').val('');
+								that.hiddenb();
+								$('.main').empty();
+								that.ready();
+							} else {
+							}
+						}
+					});
+			}
+			function hiddenb () {
+				$(".modela").css('display','none')
+			}
+			// 进入
+			function opena (ida) {
+				window.location.href = '/edit.html?id='+ ida;
+			}
+			var delid;
+			function della (ida) {
+				// 删除
+				delid = ida;
+				$(".modelb").css('display','block')
+
+			}
+			function delb () {
+				console.log(delid);
+				var that = this;
+				$.ajax({
+					type: "post", //向后台请求的方式，有post，get两种方法
+					url: "/web/dellist", //url填写的是请求的路径
+					// cache : false,//缓存是否打开
+					data: { //请求的数据，
+						'id':delid
+					},
+					dataType: 'json', //请求的数据类型
+					success: function(data) { //请求的返回成功的方法
+						console.log(data);
+						if (data.code == 200) {
+							that.hiddenc();
+							$('.main').empty();
+							that.ready();
+						} else {
+						}
+					}
+				});
+			}
+			function hiddenc () {
+					$(".modelb").css('display','none')
+			}
+
+
+
+		</script>
+
+	</body>
+</html>
